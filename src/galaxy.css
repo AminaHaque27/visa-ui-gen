@@ -1,0 +1,71 @@
+.galaxy-background {
+  position: fixed; /* Always covers the screen */
+  top: 0;
+  left: 0;
+  width: 200vw;
+  height: 150vh;
+  background-color: #ffffff;
+  overflow: hidden;
+  z-index: -1; /* Behind everything else */
+}
+
+.stars {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-image: radial-gradient(circle, #0f2595 2px, transparent 3px),
+    radial-gradient(circle, #173be8 2.5px, transparent 3px),
+    radial-gradient(circle, #1434cb 3px, transparent 1px);
+  background-size: 600px 600px, 800px 800px, 1000px 1000px;
+  background-position: 120px 100px, 300px 200px, 500px 300px;
+  background-repeat: repeat;
+  animation: moveStars 60s linear infinite, twinkle 3s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0.2;
+}
+@keyframes moveStars {
+  0% {
+    background-position: 120px 100px, 300px 200px, 500px 300px;
+  }
+  100% {
+    background-position: 0px 0px, 0px 0px, 0px 0px;
+  }
+}
+
+@keyframes twinkle {
+  0%,
+  100% {
+    opacity: 0.8;
+  }
+  50% {
+    opacity: 0.4;
+  }
+}
+
+.shooting-star {
+  position: absolute;
+  top: 20%;
+  left: -10%;
+  width: 2px;
+  height: 2px;
+  background: white;
+  box-shadow: 0 0 6px 2px rgba(255, 255, 255, 0.6);
+  border-radius: 50%;
+  animation: shoot 3s ease-in-out infinite;
+  opacity: 0;
+}
+
+@keyframes shoot {
+  0% {
+    transform: translateX(0) translateY(0) scale(1);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(120vw) translateY(60vh) scale(0.5);
+    opacity: 0;
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "login": {
+    "components": [
+      "Input: For username/email and password fields.",
+      "Checkbox: For 'Remember me' option.",
+      "Button: For submit action.",
+      "Form: To wrap the login form.",
+      "Link: For forgot password."
+    ],
+    "code": "<input type='email' />\n<input type='password' />\n<button>Login</button>"
+  },
+  "form": {
+    "components": [
+      "Form: Container for form elements.",
+      "Input: Text input fields.",
+      "Input (multiline): Multi-line input.",
+      "Button: Submit button."
+    ],
+    "code": "<form>\n  <input type='text' />\n  <button>Submit</button>\n</form>"
+  },
+  "navigation": {
+    "components": [
+      "Nav: Navigation container.",
+      "Tabs: For tabbed navigation.",
+      "Link: For navigation links."
+    ],
+    "code": "<Nav>\n  <Tabs>...</Tabs>\n</Nav>"
+  }
+}

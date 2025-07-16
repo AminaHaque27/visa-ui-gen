@@ -1,11 +1,13 @@
 .appContainer {
   display: grid;
-  grid-template-columns: 242px 1fr;
+  grid-template-columns: var(--sidebar-width, 400px) 1fr;
+  transition: grid-template-columns 0.3s ease;
   height: 100vh;
+  position: relative;
 }
 
 .appContainer.collapsed {
-  grid-template-columns: 50px 1fr;
+  --sidebar-width: 60px; /* collapsed width */
 }
 .mainContent {
   display: flex;
@@ -14,15 +16,18 @@
   align-items: center;
   padding: 24px;
   height: 100vh;
-  background-color: white;
+  background-color: transparent;
 }
 
 .message-area {
+  flex-grow: 1;
   width: 100%;
-  display: flex;
-  justify-content: center; /* Center content horizontally */
-  overflow-y: auto;
+  max-height: 80vh; /* Limit height to 60% of viewport */
+  overflow-y: auto; /* This enables scrolling */
   padding: 24px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .input-area {
@@ -161,13 +166,14 @@
   position: absolute;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%);
+  transform: translate(-35%, -50%);
   text-align: center;
   z-index: 10;
   margin-left: 50px;
   transition: opacity 0.4s ease;
   pointer-events: auto;
   opacity: 1;
+  margin-top: 30px;
 }
 
 .centered-message.fade-out {
@@ -184,9 +190,11 @@
 
 .chat-bubble {
   max-width: 70%;
-  padding: 10px 15px;
-  border-radius: 15px;
-  margin-bottom: 10px;
+  padding: 10px 20px;
+  border-radius: 18px;
+  margin-bottom: 16px;
+  font-size: 1.3rem; /* about 20px */
+  line-height: 1.6;
   word-wrap: break-word;
 }
 
@@ -194,12 +202,17 @@
   align-self: flex-end;
   background-color: var(--nova-primary-color, #007bff);
   color: white;
+  font-size: 1.25rem; /* about 20px */
+  font-weight: 500;
+  padding: 15px 24px;
+  margin-right: -90px;
 }
 
 .bot {
   align-self: flex-start;
   background-color: var(--nova-secondary-bg, #e9ecef);
   color: #333;
+  margin-left: -100px;
 }
 
 .code-snippet {
@@ -209,4 +222,95 @@
   overflow-x: auto;
   font-family: monospace;
   margin-top: 10px;
+}
+.sticky-toggle {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  height: 60px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding: 8px;
+  background-color: transparent; /* match sidebar */
+}
+
+.sticky-toggle button {
+  transform: scale(1.2);
+}
+
+.history-button {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  width: 100%;
+  font-size: 20px;
+  font-weight: 400;
+  font-family: var(--nova-font-family, sans-serif);
+  color: #ffffff;
+  background: none;
+  border: none;
+}
+.appContainer.collapsed #generator-sidebar .Typography {
+  display: none !important;
+}
+
+#generator-sidebar {
+  width: 100%;
+  overflow: hidden; /* prevents peeking */
+}
+
+/* Force internal content to not overflow */
+.history-tab {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 8px 12px;
+  width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  background: none;
+  border: none;
+}
+
+.tab-label {
+  font-size: 23px; /* Or your preferred size */
+  font-weight: 500;
+}
+
+/* Hide text in collapsed state */
+.appContainer.collapsed .tab-label {
+  display: none;
+}
+
+.copy-button {
+  font-size: 1.25rem;
+  padding: 12px 28px;
+  border-radius: 10px;
+  margin-top: 20px;
+}
+
+.preview-box {
+  margin-top: 12px;
+  border: 1px solid #ccc;
+  padding: 12px;
+  background: #fff;
+  border-radius: 8px;
+}
+
+.appContainer.collapsed #generator-sidebar {
+  width: 60px; /* Just wide enough for the logo + toggle */
+  overflow: hidden; /* Hide any overflow if needed */
+  transition: width 0.3s ease; /* Smooth animation */
+}
+
+.appContainer #generator-sidebar {
+  width: 350px; /* Example expanded width - adjust to your design */
+  transition: width 0.3s ease;
+}
+
+.sticky-toggle button {
+  background: transparent !important;
+  box-shadow: none !important;
 }

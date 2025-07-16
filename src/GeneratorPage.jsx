@@ -1,31 +1,32 @@
 import { useState, useRef, useEffect } from "react";
-import {
-  Button,
-  Divider,
-  Input,
-  InputContainer,
-  Label,
-  Link,
-  Nav,
-  NavAppName,
-  Tab,
-  TabSuffix,
-  Tabs,
-  Typography,
-  Utility,
-  UtilityFragment,
-  VisaLogo,
-} from "@visa/nova-react";
-import {
-  VisaSendHigh,
-  VisaCloseLow,
-  VisaMediaRewindTiny,
-  VisaMediaFastForwardTiny,
-  VisaChevronDownTiny,
-  VisaChevronUpTiny,
-  VisaAccountTiny,
-} from "@visa/nova-icons-react";
+import Sidebar from "./Sidebar";
+import ChatBot from "./ChatBot";
+import componentMap from "./componentMap.json";
+import { Toaster, toast } from "react-hot-toast";
 import "./GeneratorPage.css";
+import "./galaxy.css";
+
+const getComponentInfo = (query) => {
+  const lower = query.toLowerCase();
+
+  for (const key in componentMap) {
+    if (lower.includes(key)) {
+      return {
+        components: componentMap[key].components,
+        code: componentMap[key].code,
+      };
+    }
+  }
+
+  // fallback/default
+  return {
+    components: [
+      "Typography: For text elements.",
+      "Button: General purpose buttons.",
+    ],
+    code: `<div>\n  <p>${query}</p>\n  <button>Action</button>\n</div>`,
+  };
+};
 
 export default function GeneratorPage() {
   const [query, setQuery] = useState("");
@@ -34,11 +35,39 @@ export default function GeneratorPage() {
   const [showWelcome, setShowWelcome] = useState(true);
   const [showGreeting, setShowGreeting] = useState(true);
   const [messages, setMessages] = useState([]);
+  const messagesEndRef = useRef(null);
+  const textareaRef = useRef(null);
+
+  const [copiedIndex, setCopiedIndex] = useState(null);
+
+  const clearHistory = () => {
+    localStorage.removeItem("nova-history");
+    setMessages([]);
+    setHistory([]);
+    setQuery("");
+    setShowGreeting(true);
+  };
+
+  const copyToClipboard = (text, index) => {
+    navigator.clipboard.writeText(text).then(() => {
+      setCopiedIndex(index);
+      toast.success("✅ Code copied to clipboard!");
+
+      // Reset after 2 seconds
+      setTimeout(() => setCopiedIndex(null), 2000);
+    });
+  };
 
   const handleQueryChange = (e) => {
     if (showGreeting) setShowGreeting(false); // fade "Hello!" once
     setQuery(e.target.value);
   };
+
+  useEffect(() => {
+    if (messages.length > 0) {
+      setShowGreeting(false);
+    }
+  }, [messages]);
 
   const handleGenerate = () => {
     if (!query.trim()) return;
@@ -47,8 +76,7 @@ export default function GeneratorPage() {
 
     const newId = `hist-${history.length}`;
     const label = query.slice(0, 20) + (query.length > 20 ? "..." : "");
-    const components = getSuggestedComponents(query);
-    const code = getCodeSnippet(query);
+    const { components, code } = getComponentInfo(query);
 
     const systemMessage = {
       type: "bot",
@@ -64,66 +92,6 @@ export default function GeneratorPage() {
     setQuery("");
   };
 
-  const getSuggestedComponents = (q) => {
-    const lower = q.toLowerCase();
-    if (lower.includes("login")) {
-      return [
-        "Input: For username/email and password fields.",
-        'Checkbox: For "Remember me" option.',
-        "Button: For submit action.",
-        "Form: To wrap the login form.",
-        "Link: For forgot password.",
-      ];
-    } else if (lower.includes("form")) {
-      return [
-        "Form: Container for form elements.",
-        "Input: Text input fields.",
-        "Input (multiline): Multi-line input.",
-        "Button: Submit button.",
-      ];
-    } else if (lower.includes("navigation")) {
-      return [
-        "Nav: Navigation container.",
-        "Tabs: For tabbed navigation.",
-        "Link: For navigation links.",
-      ];
-    } else if (lower.includes("card")) {
-      return [
-        "ContentCard: For displaying content in cards.",
-        "ContentCardTitle: Card title.",
-        "ContentCardBody: Card body.",
-      ];
-    } else {
-      return [
-        "Typography: For text elements.",
-        "Button: General purpose buttons.",
-        "Utility: For layout utilities.",
-      ];
-    }
-  };
-
-  const getCodeSnippet = (q) => {
-    const lower = q.toLowerCase();
-    if (lower.includes("login")) {
-      return `<div>
-  <input type="email" placeholder="Email" />
-  <input type="password" placeholder="Password" />
-  <input type="checkbox" /> Remember me
-  <button>Login</button>
-</div>`;
-    }
-    return `<div>
-  <p>${q}</p>
-  <button>Action</button>
-</div>`;
-  };
-
-  const copyToClipboard = (text) => {
-    navigator.clipboard.writeText(text).then(() => alert("Code copied!"));
-  };
-
-  const textareaRef = useRef(null);
-
   useEffect(() => {
     if (textareaRef.current) {
       textareaRef.current.style.height = "auto";
@@ -131,212 +99,67 @@ export default function GeneratorPage() {
     }
   }, [query]);
 
+  useEffect(() => {
+    if (messagesEndRef.current) {
+      messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [messages]);
+
+  useEffect(() => {
+    const saved = localStorage.getItem("nova-history");
+    if (saved) {
+      const parsed = JSON.parse(saved);
+      setMessages(parsed);
+      setHistory(
+        parsed
+          .filter((m) => m.type === "user")
+          .map((m, i) => ({
+            id: `hist-${i}`,
+            label: m.text.slice(0, 20),
+            query: m.text,
+            components: m.suggestions || [],
+            code: m.code || "",
+          }))
+      );
+    }
+  }, []);
+
+  useEffect(() => {
+    if (messages.length) {
+      localStorage.setItem("nova-history", JSON.stringify(messages));
+    }
+  }, [messages]);
+
   return (
-    <div className={`appContainer ${navExpanded ? "" : "collapsed"}`}>
-      <Nav id="generator-sidebar" alternate orientation="vertical" tag="header">
-        {navExpanded && (
-          <>
-            <UtilityFragment
-              vFlex
-              vFlexCol
-              vGap={12}
-              vMarginTop={16}
-              vMarginRight={16}
-              vMarginBottom={30}
-              vMarginLeft={20}
-            >
-              <Link noUnderline href="#">
-                <VisaLogo />
-                <NavAppName>
-                  <Typography variant="subtitle-1">SheepStack</Typography>
-                </NavAppName>
-              </Link>
-            </UtilityFragment>
-
-            <nav aria-label="Query History">
-              <UtilityFragment vGap={8}>
-                <Tabs orientation="vertical">
-                  {messages
-                    .filter((m) => m.type === "user")
-                    .map((msg, index) => (
-                      <Tab key={`msg-${index}`}>
-                        <Button
-                          colorScheme="tertiary"
-                          onClick={() => setQuery(msg.text)}
-                          aria-label={`History item ${index + 1}`}
-                          style={{ textAlign: "left", width: "100%" }}
-                        >
-                          {msg.text.slice(0, 30)}
-                        </Button>
-                      </Tab>
-                    ))}
-                </Tabs>
-              </UtilityFragment>
-            </nav>
-          </>
-        )}
-        <Utility vFlex vFlexCol vAlignSelf="stretch" vGap={4} vMarginTop="auto">
-          <Divider dividerType="decorative" />
-          <UtilityFragment
-            vMarginLeft={navExpanded ? "auto" : 5}
-            vMarginRight={navExpanded ? 8 : 5}
-          >
-            <Button
-              aria-label="Toggle navigation"
-              aria-expanded={!!navExpanded}
-              buttonSize="small"
-              colorScheme="tertiary"
-              iconButton
-              iconTwoColor
-              onClick={() => setNavExpanded(!navExpanded)}
-              subtle
-            >
-              {navExpanded ? (
-                <VisaMediaRewindTiny rtl />
-              ) : (
-                <VisaMediaFastForwardTiny rtl />
-              )}
-            </Button>
-          </UtilityFragment>
-        </Utility>
-      </Nav>
-      <div className="mainContent">
-        <div className={`centered-message ${!showGreeting ? "fade-out" : ""}`}>
-          <Typography variant="display-2" style={{ marginBottom: "16px" }}>
-            <span className="gradient-text">Hello!</span> What would you like to
-            build today?
-          </Typography>
-        </div>
-
-        <div className="message-area">
-          <Utility
-            vFlex
-            vFlexCol
-            vGap={12}
-            style={{
-              width: "100%",
-              maxWidth: "900px",
-              alignItems: "center",
-            }}
-          >
-            {messages.map((msg, idx) => (
-              <div
-                key={idx}
-                className={`chat-bubble ${
-                  msg.type === "user" ? "user" : "bot"
-                }`}
-                style={{
-                  alignSelf: msg.type === "user" ? "flex-end" : "flex-start",
-                }}
-              >
-                <Typography
-                  variant="body-1"
-                  style={{ marginBottom: msg.suggestions ? "8px" : "0" }}
-                >
-                  {msg.text}
-                </Typography>
-
-                {msg.suggestions && (
-                  <ul>
-                    {msg.suggestions.map((sug, i) => (
-                      <li key={i}>{sug}</li>
-                    ))}
-                  </ul>
-                )}
-
-                {msg.code && (
-                  <>
-                    <pre className="code-snippet">{msg.code}</pre>
-                    <Button
-                      variant="secondary"
-                      onClick={() => copyToClipboard(msg.code)}
-                      aria-label="Copy code to clipboard"
-                    >
-                      Copy Code
-                    </Button>
-                  </>
-                )}
-              </div>
-            ))}
-          </Utility>
-        </div>
-
-        <div className="input-area">
-          {showWelcome && (
-            <div className="welcome-message">
-              <Typography
-                variant="headline-1"
-                style={{ marginBottom: "8px", textAlign: "left" }}
-              >
-                Welcome to SheepStack, your personal UI assistant
-              </Typography>
-              <Button
-                variant="tertiary"
-                size="sm"
-                onClick={() => setShowWelcome(false)}
-                style={{
-                  position: "absolute",
-                  top: "8px",
-                  right: "15px",
-                  cursor: "pointer",
-                  background: "transparent", // transparent background
-                  border: "none", // no border
-                  padding: 0, // no extra space
-                }}
-                aria-label="Close welcome message"
-              >
-                <VisaCloseLow size={24} color="#0040dd" />
-              </Button>
-            </div>
-          )}
-
-          <Utility
-            vFlex
-            vFlexCol
-            vGap={4}
-            style={{ width: "100%", maxWidth: "900px", position: "relative" }}
-          >
-            <InputContainer
-              style={{
-                minHeight: "150px",
-                minWidth: "1165px",
-                borderRadius: "16px",
-              }}
-            >
-              <Input
-                id="query-input"
-                multiline
-                rows={4}
-                placeholder="Ask SheepStack"
-                value={query}
-                onChange={handleQueryChange}
-                onKeyDown={(e) => {
-                  if (e.key === "Enter" && !e.shiftKey) {
-                    e.preventDefault();
-                    handleGenerate();
-                  }
-                }}
-                ref={textareaRef}
-                className="body-1-textarea"
-              />
-            </InputContainer>
-            {query.trim() && (
-              <div
-                className="send-icon"
-                role="button"
-                aria-label="Send input"
-                onClick={handleGenerate}
-                tabIndex={0}
-                onKeyDown={(e) => {
-                  if (e.key === "Enter" || e.key === " ") handleGenerate();
-                }}
-              >
-                <VisaSendHigh size={24} />
-              </div>
-            )}
-          </Utility>
-        </div>
+    <>
+      {/* Animated floating blue specs background */}
+      <div className="galaxy-background">
+        <div className="stars"></div>
+        <div className="shooting-star"></div>
       </div>
-    </div>
+      <Toaster /> {/* Required for toast notifications */}
+      <div className={`appContainer ${navExpanded ? "" : "collapsed"}`}>
+        <Sidebar
+          navExpanded={navExpanded}
+          setNavExpanded={setNavExpanded}
+          messages={messages}
+          setQuery={setQuery}
+          clearHistory={clearHistory}
+        />
+        <ChatBot
+          showGreeting={showGreeting}
+          messages={messages}
+          copiedIndex={copiedIndex}
+          copyToClipboard={copyToClipboard}
+          showWelcome={showWelcome}
+          setShowWelcome={setShowWelcome}
+          query={query}
+          handleQueryChange={handleQueryChange}
+          handleGenerate={handleGenerate}
+          textareaRef={textareaRef}
+          messagesEndRef={messagesEndRef}
+        />
+      </div>
+    </>
   );
 }
