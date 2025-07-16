@@ -1,13 +1,15 @@
 import { useState } from "react";
 import LandingPage from "./LandingPage";
+import GeneratorPage from "./GeneratorPage";
 
 function App() {
   const [started, setStarted] = useState(false);
+  console.log("Started:", started); // Debug log
 
   return (
     <>
       {started ? (
-        <div className="p-6">💡 Replace this with your Generator Page</div>
+        <GeneratorPage />
       ) : (
         <LandingPage onStart={() => setStarted(true)} />
       )}

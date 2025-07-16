@@ -1,0 +1,17 @@
+// GeneratorPage.module.scss (Update with this for layout)
+
+.appContainer {
+  display: grid;
+  height: 100vh;
+}
+
+.sidebar {
+  background-color: whitesmoke;
+  border-right: 1px solid #ddd;
+  overflow-y: auto;
+}
+
+.mainContent {
+  padding: 24px;
+  background-color: white;
+}
