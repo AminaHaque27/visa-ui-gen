@@ -1,26 +1,18 @@
 [
   {
-    "query": "loginf forum with checkbox and password",
+    "query": "hello big small button",
     "components": [
       "Input",
-      "Input",
-      "Checkbox",
       "Button"
     ],
-    "code": "<form>\n  <Input placeholder='Email' type='email' />\n  <Input placeholder='Password' type='password' />\n  <Checkbox label='Remember me' />\n  <Button title='Login' variant='primary' buttonSize='medium' />\n</form>"
+    "code": "<form><Input placeholder='Something went wrong' /><Button title='Retry' /></form>"
   },
   {
-    "query": "Long message i am not sseeeing it shrink",
+    "query": "Responsive login form with remember me",
     "components": [
-      "Typography"
+      "Input",
+      "Button"
     ],
-    "code": "<Typography variant='body'>Long message i am not sseeeing it shrink</Typography>"
-  },
-  {
-    "query": "thank you it is working now",
-    "components": [
-      "Typography"
-    ],
-    "code": "<Typography>thank you it is working now</Typography>"
+    "code": "<form><Input placeholder='Something went wrong' /><Button title='Retry' /></form>"
   }
 ]
