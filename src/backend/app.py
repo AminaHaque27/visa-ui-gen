@@ -4,6 +4,8 @@ from dotenv import load_dotenv
 from openai import OpenAI
 import os
 import json
+import re
+import traceback
 
 # Load environment variables from .env
 load_dotenv()
@@ -25,7 +27,6 @@ app.add_middleware(
 # JSON file for storing queries
 DATA_FILE = "saved_queries.json"
 
-# Load past queries
 def load_queries():
     if not os.path.exists(DATA_FILE):
         with open(DATA_FILE, "w") as f:
@@ -33,62 +34,72 @@ def load_queries():
     with open(DATA_FILE, "r") as f:
         return json.load(f)
 
-# Save updated queries
 def save_queries(queries):
     with open(DATA_FILE, "w") as f:
         json.dump(queries, f, indent=2)
 
-# AI Endpoint
-@app.get("/suggest")
-def suggest_components(query: str):
-    prompt = f"""
-You are a helpful UI assistant trained on the Visa Nova React design system.
-
-You must:
-- Only use components from "@visa/nova-react"
-- Never invent components (❌ <VisaInputField /> or <NovaForm />)
-- Never use plain HTML elements (❌ <input>, <button>, <label>)
-
-✅ Valid Nova components include:
-- Input
-- Button (can have 'variant' like "primary", "secondary", "outline", "ghost"; and 'size' like "small", "medium", "large")
-- Checkbox
-- Typography
-- InputContainer
-- Utility
-- Link
-- Tabs
-
-✅ Example output:
-{{
-  "components": ["Button"],
-  "code": "<Button title='Submit' variant='primary' buttonSize='large' />"
-}}
-
-✅ Example output:
-{{
-  "components": ["Input", "Input", "Checkbox", "Button"],
-  "code": "<form>\\n  <Input placeholder='Email' type='email' />\\n  <Input placeholder='Password' type='password' />\\n  <Checkbox label='Remember me' />\\n  <Button title='Login' variant='primary' buttonSize='medium' />\\n</form>"
-}}
+def clean_json_response(raw: str):
+    # Strip triple backticks and markdown formatting
+    cleaned = re.sub(r"```(?:json|jsx)?\s*([\s\S]*?)\s*```", r"\1", raw.strip())
+    
+    # Remove any leading text before the JSON object starts
+    cleaned = re.sub(r"^[^{]*({)", r"\1", cleaned)  # remove junk before {
+    
+    # Remove any trailing junk after the last closing brace
+    cleaned = re.sub(r"(})[^}]*$", r"\1", cleaned)
+    
+    return cleaned
 
 
-Given this user request:
+# 💡 Elevated prompt with component reasoning
+def build_prompt(query: str) -> str:
+    return f"""
+You are a senior UI engineer helping developers build UIs using only "@visa/nova-react" components.
+
+Given the user's request:
 "{query}"
 
-Return ONLY a valid JSON object with:
-- "components": list of Nova components
-- "code": JSX string using them
+Think carefully through which components are appropriate and why.
 
-All JSX code must be valid and syntactically correct.
+You may only choose from: Input, Button, Checkbox, Typography, InputContainer, Utility, Link, Tabs.
 
-⚠️ If returning more than one element, wrap them inside a parent tag:
-✅ Valid: <div><Button /><Input /></div>
-✅ Valid: <> <Button /> <Input /> </>
+Return a valid JSON object with this structure:
 
-❌ Invalid: <Button /> <Input />
+{{
+  "components": ["Component1", "Component2", ...],
+  "reasoning": "Why each component is used",
+  "code": "<JSX code using those components>"
+}}
 
-Important: Do not explain anything. Do not include markdown or commentary.
+⚠️ DO NOT:
+- Explain anything outside the JSON
+- Use markdown or code fences
+- Include comments inside JSX
+- Use HTML like <input> or <button>
+
+❗ Typography Guidelines:
+- Use `headline-3`, `headline-2`, or `subtitle-1` for section headings
+- Avoid `h1` or `display-1` unless the user explicitly asks
+
+Wrap each input field in its own <InputContainer label="...">.  
+Use correct types like `type="date"` for dates and `type="number"` for age.  
+Use `placeholder` text to guide the user.
+Use vertical layout with gap or spacing between fields.
+
+
+✅ DO:
+- Use InputContainer to group fields
+- Add Typography for headings or helper text
+- Use only the allowed components
+- Wrap layout in <div> or <> ... </>
 """
+
+
+
+# 🚀 AI endpoint
+@app.get("/suggest")
+def suggest_components(query: str):
+    prompt = build_prompt(query)
 
     try:
         response = client.chat.completions.create(
@@ -97,27 +108,38 @@ Important: Do not explain anything. Do not include markdown or commentary.
             temperature=0.4
         )
 
-        result = response.choices[0].message.content.strip()
-        print("🔵 RAW RESPONSE:", result)
+        raw_result = response.choices[0].message.content.strip()
+        print("🔵 RAW RESPONSE:", raw_result)
 
-        parsed = json.loads(result)
+        cleaned_result = clean_json_response(raw_result)
+        try:
+            parsed = json.loads(cleaned_result)
+        except json.JSONDecodeError as e:
+            print("❌ Cleaned JSON still failed to parse:")
+            print("🧼 Cleaned Output:", cleaned_result)
+            raise e  # trigger fallback
+
+        print("🟢 PARSED JSON:", parsed)
         return parsed
 
     except json.JSONDecodeError as e:
         print("❌ JSON decode error:", e)
         return {
             "components": ["Input", "Input", "Button"],
+            "reasoning": "Fallback due to formatting issue. Using common login form fields.",
             "code": "<form><Input placeholder='Username' /><Input placeholder='Password' type='password' /><Button title='Login' /></form>"
         }
 
     except Exception as e:
-        print("❌ General error:", e)
+        print("❌ General error:", traceback.format_exc())
         return {
             "components": ["Input", "Button"],
+            "reasoning": "Fallback due to an unknown error.",
             "code": "<form><Input placeholder='Something went wrong' /><Button title='Retry' /></form>"
         }
 
-# Save a query result
+
+# 📝 Save a query result
 @app.post("/queries")
 async def save_query(request: Request):
     data = await request.json()
@@ -126,11 +148,12 @@ async def save_query(request: Request):
     save_queries(queries)
     return {"shared_id": str(len(queries))}
 
-# Get all saved queries
+# 📂 Get all saved queries
 @app.get("/queries")
 def get_queries():
     return load_queries()
 
+# ❌ Clear all queries
 @app.delete("/queries")
 def delete_queries():
     save_queries([])  # Clear the file

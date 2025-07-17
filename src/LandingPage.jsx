@@ -13,7 +13,6 @@ export default function LandingPage({ onStart }) {
   const [isDarkMode, setIsDarkMode] = useState(false);
 
   useEffect(() => {
-    // Respect system preference on initial load (for accessibility/WCAG)
     const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
     const initialMode = mediaQuery.matches;
     setIsDarkMode(initialMode);
@@ -22,7 +21,6 @@ export default function LandingPage({ onStart }) {
       initialMode ? "dark" : "light"
     );
 
-    // Listener for system theme changes
     const handleChange = (e) => {
       const newMode = e.matches;
       setIsDarkMode(newMode);

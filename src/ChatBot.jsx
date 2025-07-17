@@ -7,6 +7,7 @@ import {
 } from "@visa/nova-react";
 import { VisaSendHigh, VisaCloseLow } from "@visa/nova-icons-react";
 import BotCodeReveal from "./BotCodeReveal";
+import "./ChatBot.css";
 
 export default function ChatBot({
   showGreeting,
@@ -60,12 +61,16 @@ export default function ChatBot({
               </Typography>
 
               {msg.code && msg.type === "bot" && (
-                <BotCodeReveal
-                  code={msg.code}
-                  suggestions={msg.suggestions}
-                  copied={copiedIndex === idx}
-                  onCopy={() => copyToClipboard(msg.code, idx)}
-                />
+                <>
+                  <BotCodeReveal
+                    code={msg.code}
+                    suggestions={msg.suggestions}
+                    reasoning={msg.reasoning}
+                    copied={copiedIndex === idx}
+                    onCopy={() => copyToClipboard(msg.code, idx)}
+                    codeTitle={messages[idx - 1]?.text || "your request"}
+                  />
+                </>
               )}
             </div>
           ))}
@@ -135,7 +140,7 @@ export default function ChatBot({
               minWidth: "1165px",
               borderRadius: "16px",
               backgroundColor: "var(--background)",
-              border: "1px solid var(--preview-border)", // fixes outline
+              border: "1px solid var(--preview-border)",
             }}
           >
             <Input
@@ -152,7 +157,7 @@ export default function ChatBot({
                 }
               }}
               ref={textareaRef}
-              className="body-1-textarea"
+              className="nova-textarea"
             />
           </InputContainer>
           {query.trim() && (

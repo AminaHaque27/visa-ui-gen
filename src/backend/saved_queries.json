@@ -1,18 +1,54 @@
 [
   {
-    "query": "hello big small button",
+    "query": "Create a login form",
     "components": [
+      "InputContainer",
       "Input",
-      "Button"
+      "Button",
+      "Typography"
     ],
-    "code": "<form><Input placeholder='Something went wrong' /><Button title='Retry' /></form>"
+    "code": "<div><Typography variant='headline-3'>Login Form</Typography><InputContainer label='Username'><Input placeholder='Enter username' /></InputContainer><InputContainer label='Password'><Input type='password' placeholder='Enter password' /></InputContainer><Button>Login</Button><Typography variant='subtitle-1'>Forgot password?</Typography></div>",
+    "reasoning": "InputContainer to group fields, Input for username and password, Button for login action, Typography for form title and helper text"
   },
   {
-    "query": "Responsive login form with remember me",
+    "query": "Create a login form",
     "components": [
+      "InputContainer",
+      "Input",
+      "Button",
+      "Typography"
+    ],
+    "code": "<div><Typography variant='headline-3'>Login Form</Typography><InputContainer label='Username'><Input placeholder='Enter your username' /></InputContainer><InputContainer label='Password'><Input type='password' placeholder='Enter your password' /></InputContainer><Button type='submit'>Login</Button></div>",
+    "reasoning": "InputContainer to group fields, Input for text input, Button for form submission, Typography for headings and helper text"
+  },
+  {
+    "query": "create a faq page with dropdown text boxes",
+    "components": [
+      "Input",
       "Input",
       "Button"
     ],
-    "code": "<form><Input placeholder='Something went wrong' /><Button title='Retry' /></form>"
+    "code": "<form><Input placeholder='Username' /><Input placeholder='Password' type='password' /><Button title='Login' /></form>",
+    "reasoning": "Fallback due to formatting issue. Using common login form fields."
+  },
+  {
+    "query": "create a questions page",
+    "components": [
+      "Input",
+      "Input",
+      "Button"
+    ],
+    "code": "<form><Input placeholder='Username' /><Input placeholder='Password' type='password' /><Button title='Login' /></form>",
+    "reasoning": "Fallback due to formatting issue. Using common login form fields."
+  },
+  {
+    "query": "create a questions page",
+    "components": [
+      "Typography",
+      "InputContainer",
+      "Input"
+    ],
+    "code": "<><Typography variant='headline-3'>Questions Page</Typography><InputContainer label='Name'><Input placeholder='Enter your name' /></InputContainer><InputContainer label='Email'><Input type='email' placeholder='Enter your email' /></InputContainer><InputContainer label='Question'><Input placeholder='Ask your question here' /></InputContainer></>",
+    "reasoning": "Typography for section headings, InputContainer to group fields with labels, Input for user input fields"
   }
 ]

@@ -4,7 +4,7 @@ import GeneratorPage from "./GeneratorPage";
 
 function App() {
   const [started, setStarted] = useState(false);
-  console.log("Started:", started); // Debug log
+  console.log("Started:", started);
 
   return (
     <>

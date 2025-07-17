@@ -7,11 +7,15 @@ import "./GeneratorPage.css"; // overrides (dark mode vars)
 import { VisaModeDarkHigh, VisaModeLightHigh } from "@visa/nova-icons-react";
 
 const getComponentInfo = async (query) => {
+  const BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:8000"; // fallback
+
   try {
     const response = await fetch(
-      `http://localhost:8000/suggest?query=${encodeURIComponent(query)}`
+      `${BASE_URL}/suggest?query=${encodeURIComponent(query)}`
     );
+
     if (!response.ok) throw new Error("Failed to fetch from backend");
+
     return await response.json();
   } catch (error) {
     console.error("Backend fetch failed:", error);
@@ -112,12 +116,14 @@ export default function GeneratorPage() {
     const label = query.slice(0, 20) + (query.length > 20 ? "..." : "");
 
     // Step 1: Fetch component suggestion
-    const { components, code } = await getComponentInfo(query);
+    const { components, code, reasoning } = await getComponentInfo(query);
 
     const systemMessage = {
       type: "bot",
+      text: null,
       suggestions: components,
       code: code,
+      reasoning: reasoning, // ← add this line
     };
 
     setMessages((prev) => [...prev, userMessage, systemMessage]);
@@ -127,7 +133,7 @@ export default function GeneratorPage() {
       const saveResponse = await fetch("http://localhost:8000/queries", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ query, components, code }),
+        body: JSON.stringify({ query, components, code, reasoning }),
       });
 
       const { shared_id } = await saveResponse.json();
@@ -170,6 +176,7 @@ export default function GeneratorPage() {
             text: null,
             suggestions: item.components,
             code: item.code,
+            reasoning: item.reasoning,
           },
         ]);
 

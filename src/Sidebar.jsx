@@ -43,7 +43,7 @@ export default function Sidebar({
   setQuery,
   clearHistory,
 }) {
-  const width = useWindowWidth(); // ✅ Use it here
+  const width = useWindowWidth();
 
   return (
     <Nav
@@ -144,8 +144,8 @@ export default function Sidebar({
                         maxWidth: "280px",
                         lineHeight: "1.4",
                         verticalAlign: "middle",
-                        transition: "color 0.2s ease", // optional smooth transition
-                        color: "#fff", // base color
+                        transition: "color 0.2s ease",
+                        color: "#fff",
                       }}
                       onMouseEnter={(e) =>
                         (e.currentTarget.style.color = "#FCC015")

@@ -1,0 +1,10 @@
+.nova-textarea {
+  white-space: pre-wrap !important;
+  word-break: break-word !important;
+  overflow-x: hidden !important;
+  font-size: 1.5rem !important;
+  padding: 20px !important;
+  resize: vertical !important;
+  line-height: 1.5;
+  margin-top: -50px;
+}

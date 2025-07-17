@@ -274,7 +274,7 @@ body {
   padding: 10px 20px;
   border-radius: 18px;
   margin-bottom: 16px;
-  font-size: 1.3rem; /* about 20px */
+  font-size: 1.3rem;
   line-height: 1.6;
   word-wrap: break-word;
   color: var(--text-primary);
@@ -284,7 +284,7 @@ body {
   align-self: flex-end;
   background-color: var(--chat-user-bg);
   color: var(--palette-default-surface-1);
-  font-size: 1.25rem; /* about 20px */
+  font-size: 1.25rem;
   font-weight: 500;
   padding: 15px 24px;
   margin-right: -90px;
@@ -315,7 +315,7 @@ body {
   justify-content: flex-end;
   align-items: center;
   padding: 8px;
-  background-color: transparent; /* match sidebar */
+  background-color: transparent;
 }
 
 .sticky-toggle button {
@@ -342,10 +342,9 @@ body {
 
 #generator-sidebar {
   width: 100%;
-  overflow: hidden; /* prevents peeking */
+  overflow: hidden;
 }
 
-/* Force internal content to not overflow */
 .history-tab {
   display: flex;
   align-items: center;
@@ -360,12 +359,11 @@ body {
 }
 
 .tab-label {
-  font-size: 23px; /* Or your preferred size */
+  font-size: 23px;
   font-weight: 500;
   color: #ffffff;
 }
 
-/* Hide text in collapsed state */
 .appContainer.collapsed .tab-label {
   display: none;
 }
@@ -388,13 +386,13 @@ body {
 }
 
 .appContainer.collapsed #generator-sidebar {
-  width: 60px; /* Just wide enough for the logo + toggle */
-  overflow: hidden; /* Hide any overflow if needed */
-  transition: width 0.3s ease; /* Smooth animation */
+  width: 60px;
+  overflow: hidden;
+  transition: width 0.3s ease;
 }
 
 .appContainer #generator-sidebar {
-  width: 350px; /* Example expanded width - adjust to your design */
+  width: 350px;
   transition: width 0.3s ease;
 }
 
@@ -403,18 +401,17 @@ body {
   box-shadow: none !important;
 }
 
-/* Optional: Adjust galaxy background opacity for better contrast in light mode */
 .galaxy-background {
-  opacity: 0.85; /* Slightly transparent in light for visibility */
+  opacity: 0.85;
   transition: opacity 0.3s;
 }
 
 [data-theme="dark"] .galaxy-background {
-  opacity: 1; /* Full opacity in dark mode */
+  opacity: 1;
 }
 
 .tab-label-wrapper {
-  max-width: 200px; /* adjust if needed */
+  max-width: 200px;
   display: inline-block;
   overflow: hidden;
   white-space: nowrap;

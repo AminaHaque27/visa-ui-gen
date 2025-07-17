@@ -1,12 +1,12 @@
 .galaxy-background {
-  position: fixed; /* stays in place */
+  position: fixed;
   top: 0;
   left: 0;
-  width: 100vw; /* ✅ fits exactly to screen */
+  width: 100vw;
   height: 100vh;
   background-color: transparent;
   overflow: hidden;
-  z-index: -1; /* stays behind content */
+  z-index: -1;
 }
 
 .stars {
