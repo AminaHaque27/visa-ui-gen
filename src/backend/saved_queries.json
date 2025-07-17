@@ -1,11 +1,12 @@
 [
   {
-    "query": "hello",
+    "query": "Checklist",
     "components": [
-      "Typography",
       "InputContainer",
+      "Typography",
       "Input"
     ],
-    "code": "<><Typography variant='headline-3'>Hello</Typography><InputContainer label='Enter your message'><Input placeholder='Type your message here' /></InputContainer></>"
+    "code": "<><Typography variant='headline-3'>Checklist</Typography><InputContainer label='Task 1'><Input placeholder='Enter task 1' /></InputContainer><InputContainer label='Task 2'><Input placeholder='Enter task 2' /></InputContainer><InputContainer label='Task 3'><Input placeholder='Enter task 3' /></InputContainer></>",
+    "reasoning": "InputContainer to group fields, Typography for headings or helper text, Input for user input fields"
   }
 ]
