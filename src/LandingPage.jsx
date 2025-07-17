@@ -49,7 +49,7 @@ export default function LandingPage({ onStart }) {
       <div className="stars"></div>
       <div className="shooting-star"></div>
 
-      <main className="page-container">
+      <main className="page-container max-w-screen-lg mx-auto px-4">
         <header className="header">
           <img src={VisaLogo} alt="Visa Logo" className="logo" />
           <Typography
