@@ -10,6 +10,8 @@ This is a web-based tool that helps developers describe a UI in plain English (e
 This tool helps developers go from idea to implementation by translating natural language into styled, accessible components using Visa’s design tokens.
 
 ---
+⚠️ Display Notice
+For the best experience, please ensure your browser zoom is set to 100%. If elements appear too large or misaligned, try zooming out slightly.
 
 ## ✨ Approach & Technical Choices
 
