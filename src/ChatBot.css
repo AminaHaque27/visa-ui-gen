@@ -1,10 +1,37 @@
+.mainContent {
+  display: flex;
+  flex-direction: column;
+  min-height: 149vh;
+  background-color: var(--background);
+  align-items: center;
+}
+
+.message-area {
+  width: 100%;
+  flex-grow: 1;
+  overflow-y: auto;
+  display: flex;
+  justify-content: center;
+  padding: 20px 16px;
+  box-sizing: border-box;
+}
+
+.input-area {
+  margin-top: 10px;
+  max-width: 900px;
+  width: 100%;
+  padding-bottom: 30px;
+  box-sizing: border-box;
+  align-items: center;
+}
+
 .nova-textarea {
-  white-space: pre-wrap !important;
-  word-break: break-word !important;
-  overflow-x: hidden !important;
-  font-size: 1.5rem !important;
-  padding: 20px !important;
-  resize: vertical !important;
-  line-height: 1.5;
-  margin-top: -50px;
+  font-size: 1.8rem !important; /* 👈 Make this larger as needed */
+  line-height: 1.6;
+  padding: 20px;
+  resize: vertical;
+  white-space: pre-wrap;
+  word-break: break-word;
+  overflow-x: hidden;
+  margin-top: -60px;
 }

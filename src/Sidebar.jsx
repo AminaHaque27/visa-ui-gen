@@ -54,6 +54,7 @@ export default function Sidebar({
       style={{
         width: navExpanded ? "400px" : "80px",
         transition: "width 0.3s ease",
+        height: "149.2vh",
       }}
     >
       <UtilityFragment

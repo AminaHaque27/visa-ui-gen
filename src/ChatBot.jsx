@@ -25,7 +25,10 @@ export default function ChatBot({
   return (
     <div className="mainContent">
       <div className={`centered-message ${!showGreeting ? "fade-out" : ""}`}>
-        <Typography variant="display-2" style={{ marginBottom: "16px" }}>
+        <Typography
+          variant="display-2"
+          style={{ marginBottom: "-1000px", marginTop: "270px" }}
+        >
           <span className="gradient-text">Hello!</span> What would you like to
           build today?
         </Typography>
@@ -83,7 +86,11 @@ export default function ChatBot({
           <div className="welcome-message" style={{ position: "relative" }}>
             <Typography
               variant="headline-1"
-              style={{ marginBottom: "8px", textAlign: "left" }}
+              style={{
+                marginBottom: "8px",
+                textAlign: "left",
+                position: "relative",
+              }}
             >
               Welcome to NovaUI, your personal UI assistant
             </Typography>

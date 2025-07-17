@@ -115,3 +115,7 @@ body {
 [data-theme="dark"] .galaxy-background {
   opacity: 1; /* Full opacity in dark mode */
 }
+
+.page-container {
+  zoom: 0.67;
+}

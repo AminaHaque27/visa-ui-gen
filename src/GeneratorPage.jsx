@@ -201,82 +201,84 @@ export default function GeneratorPage() {
 
   return (
     <>
-      {/* Animated floating blue specs background */}
       <div className="galaxy-background">
         <div className="stars"></div>
         <div className="shooting-star"></div>
       </div>
-      <Toaster /> {/* Required for toast notifications */}
-      <div
-        style={{
-          position: "absolute",
-          left: navExpanded ? "430px" : "100px", // adjusts based on sidebar
-          zIndex: 10,
-          fontSize: "30px",
-          fontWeight: "500",
-          fontFamily: "Visa Sans Text, sans-serif",
-          transition: "left 0.3s ease",
-          top: "50px",
-          background:
-            "linear-gradient(90deg, var(--gradient-start), var(--gradient-mid), var(--gradient-end))",
-          WebkitBackgroundClip: "text",
-          WebkitTextFillColor: "transparent",
-        }}
-      >
-        NovaUI
-      </div>
-      <div
-        style={{
-          position: "absolute",
-          right: "50px",
-          zIndex: 10,
-          cursor: "pointer",
-          padding: "8px",
-          top: "20px",
-        }}
-        onClick={toggleTheme}
-      >
-        {isDarkMode ? (
-          <VisaModeLightHigh
-            style={{
-              width: "55px",
-              height: "55px",
-              color: "var(--palette-default-text)",
-            }}
-            aria-label="Switch to light mode"
+
+      <div className="page-container">
+        <Toaster /> {/* Required for toast notifications */}
+        <div
+          style={{
+            position: "absolute",
+            left: navExpanded ? "430px" : "100px", // adjusts based on sidebar
+            zIndex: 10,
+            fontSize: "30px",
+            fontWeight: "500",
+            fontFamily: "Visa Sans Text, sans-serif",
+            transition: "left 0.3s ease",
+            top: "50px",
+            background:
+              "linear-gradient(90deg, var(--gradient-start), var(--gradient-mid), var(--gradient-end))",
+            WebkitBackgroundClip: "text",
+            WebkitTextFillColor: "transparent",
+          }}
+        >
+          NovaUI
+        </div>
+        <div
+          style={{
+            position: "absolute",
+            right: "50px",
+            zIndex: 10,
+            cursor: "pointer",
+            padding: "8px",
+            top: "20px",
+          }}
+          onClick={toggleTheme}
+        >
+          {isDarkMode ? (
+            <VisaModeLightHigh
+              style={{
+                width: "55px",
+                height: "55px",
+                color: "var(--palette-default-text)",
+              }}
+              aria-label="Switch to light mode"
+            />
+          ) : (
+            <VisaModeDarkHigh
+              style={{
+                width: "55px",
+                height: "55px",
+                color: "var(--palette-default-text)",
+              }}
+              aria-label="Switch to dark mode"
+            />
+          )}
+        </div>
+        <div className={`appContainer ${navExpanded ? "" : "collapsed"}`}>
+          <Sidebar
+            navExpanded={navExpanded}
+            setNavExpanded={setNavExpanded}
+            messages={messages}
+            setQuery={setQuery}
+            clearHistory={clearHistory}
           />
-        ) : (
-          <VisaModeDarkHigh
-            style={{
-              width: "55px",
-              height: "55px",
-              color: "var(--palette-default-text)",
-            }}
-            aria-label="Switch to dark mode"
+          <ChatBot
+            showGreeting={showGreeting}
+            messages={messages}
+            copiedIndex={copiedIndex}
+            copyToClipboard={copyToClipboard}
+            showWelcome={showWelcome}
+            setShowWelcome={setShowWelcome}
+            query={query}
+            handleQueryChange={handleQueryChange}
+            handleGenerate={handleGenerate}
+            textareaRef={textareaRef}
+            messagesEndRef={messagesEndRef}
           />
-        )}
-      </div>
-      <div className={`appContainer ${navExpanded ? "" : "collapsed"}`}>
-        <Sidebar
-          navExpanded={navExpanded}
-          setNavExpanded={setNavExpanded}
-          messages={messages}
-          setQuery={setQuery}
-          clearHistory={clearHistory}
-        />
-        <ChatBot
-          showGreeting={showGreeting}
-          messages={messages}
-          copiedIndex={copiedIndex}
-          copyToClipboard={copyToClipboard}
-          showWelcome={showWelcome}
-          setShowWelcome={setShowWelcome}
-          query={query}
-          handleQueryChange={handleQueryChange}
-          handleGenerate={handleGenerate}
-          textareaRef={textareaRef}
-          messagesEndRef={messagesEndRef}
-        />
+        </div>
       </div>
     </>
   );

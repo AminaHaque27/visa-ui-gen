@@ -1,12 +1,22 @@
 [
   {
-    "query": "Checklist",
+    "query": "Login form",
     "components": [
       "InputContainer",
-      "Typography",
-      "Input"
+      "Input",
+      "Button",
+      "Typography"
     ],
-    "code": "<><Typography variant='headline-3'>Checklist</Typography><InputContainer label='Task 1'><Input placeholder='Enter task 1' /></InputContainer><InputContainer label='Task 2'><Input placeholder='Enter task 2' /></InputContainer><InputContainer label='Task 3'><Input placeholder='Enter task 3' /></InputContainer></>",
-    "reasoning": "InputContainer to group fields, Typography for headings or helper text, Input for user input fields"
+    "code": "<><Typography variant='headline-3'>Login Form</Typography><InputContainer label='Username'><Input type='text' placeholder='Enter your username' /></InputContainer><InputContainer label='Password'><Input type='password' placeholder='Enter your password' /></InputContainer><Button>Login</Button></>",
+    "reasoning": "InputContainer to group fields, Input for username and password, Button for submission, Typography for heading"
+  },
+  {
+    "query": "Loging from",
+    "components": [
+      "InputContainer",
+      "Typography"
+    ],
+    "code": "<><Typography variant='headline-3'>Login Form</Typography><InputContainer label='Username'><Input placeholder='Enter username' /></InputContainer><InputContainer label='Password'><Input type='password' placeholder='Enter password' /></InputContainer></>",
+    "reasoning": "InputContainer is used to group input fields together with labels. Typography is used for section headings."
   }
 ]
