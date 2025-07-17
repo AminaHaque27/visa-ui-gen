@@ -1,0 +1,201 @@
+/* Define variables in root for light mode */
+:root {
+  --default-active: #1434cb;
+  --default-active-hover: #173be8;
+  --default-active-pressed: #0f2595;
+  --default-active-subtle: rgba(0, 0, 0, 0.5);
+  --default-subtle: #8a847f;
+  --default-accent: #1434cb;
+
+  --text-primary: #333;
+  --text-secondary: #222;
+  --text-accent: #0040dd;
+  --text-dark: #0f5132;
+  --text-warning: #8a6d00;
+
+  --bg-primary: #ffffff;
+  --bg-secondary: #f6f6f6;
+  --bg-preview: #fff;
+  --bg-toggle-components: #f0f0f0;
+  --bg-toggle-code: #fff8e1;
+  --bg-toggle-preview: #e6f4ea;
+  --bg-copy: #0040dd;
+  --bg-copy-hover: #0030b3;
+
+  --border-primary: #ccc;
+  --border-secondary: #ddd;
+  --border-toggle-code: #e0c200;
+  --border-toggle-preview: #34a853;
+
+  --gradient-start: #1434cb;
+  --gradient-mid: #0074cc;
+  --gradient-end: #00c6ff;
+}
+
+/* Override for dark mode */
+[data-theme="dark"] {
+  --default-active: #bdeaff;
+  --default-active-hover: #dbf4ff;
+  --default-active-pressed: #80d7ff;
+  --default-active-subtle: rgba(255, 255, 255, 0.5);
+  --default-subtle: #8a847f;
+  --default-accent: #fcc015;
+
+  --text-primary: #e0e0e0;
+  --text-secondary: #dddddd;
+  --text-accent: #bdeaff;
+  --text-dark: #34a853; /* Inverted for visibility */
+  --text-warning: #fcc015; /* Inverted for visibility */
+
+  --bg-primary: #1e1e1e;
+  --bg-secondary: #2a2a2a;
+  --bg-preview: #1e1e1e;
+  --bg-toggle-components: #333333;
+  --bg-toggle-code: #4a3c00; /* Darker variant */
+  --bg-toggle-preview: #0f5132; /* Darker variant */
+  --bg-copy: #bdeaff;
+  --bg-copy-hover: #80d7ff;
+
+  --border-primary: #444444;
+  --border-secondary: #555555;
+  --border-toggle-code: #fcc015; /* Adjusted for dark */
+  --border-toggle-preview: #34a853; /* Keep or adjust */
+
+  --gradient-start: #bdeaff;
+  --gradient-mid: #dbf4ff;
+  --gradient-end: #80d7ff;
+}
+
+.bot-code-reveal {
+  margin-top: 20px;
+}
+
+.bot-heading {
+  font-size: 1.8rem;
+  margin-bottom: 8px;
+  font-weight: 400;
+  color: var(--text-primary);
+  text-align: center;
+}
+
+.bot-section {
+  max-height: 1000px;
+  overflow: hidden;
+  transition: max-height 0.4s ease-in-out;
+}
+
+.bot-code-suggestions {
+  margin-bottom: 12px;
+  padding-left: 20px;
+  font-size: 1.5rem; /* increase font size */
+  font-weight: 500; /* optional: make it semi-bold */
+  line-height: 1.6; /* optional: more spacing */
+  color: var(--text-secondary); /* optional: make it a bit darker */
+}
+
+.preview-box {
+  padding: 24px;
+  border: 1px solid var(--border-primary);
+  border-radius: 8px;
+  background-color: var(--bg-preview);
+  margin-bottom: 16px;
+  font-size: 1.3rem;
+  min-height: 100px;
+  line-height: 1.6;
+}
+
+.preview-content {
+  font-size: 3rem;
+  line-height: 1.6;
+  color: var(--text-primary);
+}
+
+.code-snippet {
+  white-space: pre-wrap;
+  background-color: var(--bg-secondary);
+  padding: 12px;
+  border-radius: 6px;
+  border: 1px solid var(--border-secondary);
+  font-size: 1.5rem;
+  font-family: Menlo, Consolas, monospace;
+  margin-bottom: 8px;
+  color: var(--text-primary);
+}
+
+/* Individual Button Styles */
+.toggle-open-btn {
+  margin: 0 auto 20px auto;
+  margin-top: 30px;
+  margin-left: 240px;
+  display: block;
+  background-color: var(--text-accent);
+  color: var(--bg-primary);
+  min-width: 100px;
+  font-size: 1.2rem;
+  font-weight: 100;
+  padding: 10px 20px;
+  border-radius: 15px;
+}
+
+.toggle-components-btn {
+  margin-bottom: 8px;
+  background-color: var(--bg-toggle-components);
+  color: var(--text-primary);
+  border: 1px solid var(--border-secondary);
+  font-size: large;
+}
+
+.toggle-code-btn {
+  margin-bottom: 8px;
+  background-color: var(--bg-toggle-code);
+  border: 1px solid var(--border-toggle-code);
+  color: var(--text-warning);
+  font-size: large;
+}
+
+.toggle-preview-btn {
+  margin-bottom: 8px;
+  background-color: var(--bg-toggle-preview);
+  border: 1px solid var(--border-toggle-preview);
+  color: var(--text-dark);
+  font-size: large;
+}
+
+.copy-btn {
+  margin-top: 8px;
+  background-color: var(--text-primary);
+  color: var(--bg-primary);
+  font-weight: bold;
+  padding: 10px 16px;
+}
+
+.code-box-with-copy {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.icon-copy-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 1.3rem;
+  font-weight: 200;
+  padding: 8px 12px;
+  background-color: var(--bg-copy);
+  color: var(--bg-primary);
+  border-radius: 8px;
+  transition: background-color 0.2s ease-in-out;
+  margin-top: 35px;
+}
+
+.icon-copy-btn:hover {
+  background-color: var(--bg-copy-hover);
+}
+
+.code-snippet {
+  flex: 1;
+  margin: 0;
+}

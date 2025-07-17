@@ -1,3 +1,75 @@
+/* GeneratorPage.css */
+
+:root {
+  --default-active: #1434cb;
+  --default-active-hover: #173be8;
+  --default-active-pressed: #0f2595;
+  --default-active-subtle: rgba(0, 0, 0, 0.5);
+  --default-subtle: #8a847f;
+  --default-accent: #1434cb;
+
+  --palette-default-surface-1: #ffffff;
+  --palette-default-text: #000000;
+
+  --nova-primary-color: #007bff;
+  --nova-secondary-bg: #e9ecef;
+  --nova-font-family: sans-serif;
+
+  --text-primary: #333;
+  --text-accent: #0074cc;
+  --background: transparent;
+  --welcome-bg: #f5f5f5;
+  --chat-user-bg: var(--nova-primary-color);
+  --chat-bot-bg: var(--nova-secondary-bg);
+  --code-bg: #f8f9fa;
+  --preview-border: #ccc;
+  --preview-bg: #fff;
+  --gradient-start: #1434cb;
+  --gradient-mid: #0074cc;
+  --gradient-end: #00c6ff;
+  --star-color-1: #0f2595;
+  --star-color-2: #173be8;
+  --star-color-3: #1434cb;
+}
+
+[data-theme="dark"] {
+  --default-active: #bdeaff;
+  --default-active-hover: #dbf4ff;
+  --default-active-pressed: #80d7ff;
+  --default-active-subtle: rgba(255, 255, 255, 0.5);
+  --default-subtle: #8a847f;
+  --default-accent: #fcc015;
+
+  --palette-default-surface-1: #0a0a0a;
+  --palette-default-text: #ffffff;
+
+  --nova-primary-color: #fcc015;
+  --nova-secondary-bg: #2a2a2a;
+  --nova-font-family: sans-serif;
+
+  --text-primary: #e0e0e0;
+  --text-accent: #fcc015;
+  --background: #121212;
+  --welcome-bg: #1e1e1e;
+  --chat-user-bg: var(--nova-primary-color);
+  --chat-bot-bg: var(--nova-secondary-bg);
+  --code-bg: #1e1e1e;
+  --preview-border: #444;
+  --preview-bg: #1e1e1e;
+  --gradient-start: #bdeaff;
+  --gradient-mid: #dbf4ff;
+  --gradient-end: #80d7ff;
+  --star-color-1: #ffffff;
+  --star-color-2: #cccccc;
+  --star-color-3: #999999;
+}
+
+body {
+  background-color: var(--palette-default-surface-1);
+  color: var(--palette-default-text);
+  transition: background-color 0.3s, color 0.3s;
+}
+
 .appContainer {
   display: grid;
   grid-template-columns: var(--sidebar-width, 400px) 1fr;
@@ -16,7 +88,7 @@
   align-items: center;
   padding: 24px;
   height: 100vh;
-  background-color: transparent;
+  background-color: var(--background);
 }
 
 .message-area {
@@ -49,7 +121,7 @@
   justify-content: center;
   padding: 6px;
   border-radius: 50%;
-  background-color: white;
+  background-color: var(--welcome-bg);
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
   transition: transform 0.2s ease, opacity 0.3s ease;
   opacity: 0;
@@ -62,7 +134,7 @@
 }
 
 .send-icon:focus {
-  outline: 2px solid #0074cc;
+  outline: 2px solid var(--text-accent);
   outline-offset: 2px;
 }
 
@@ -75,8 +147,8 @@
   content: "Click to send";
   position: absolute;
   bottom: 125%;
-  background: #333;
-  color: white;
+  background: var(--text-primary);
+  color: var(--palette-default-surface-1);
   font-size: 12px;
   padding: 4px 8px;
   border-radius: 4px;
@@ -133,6 +205,7 @@
   font-weight: 600;
   line-height: 2.5rem;
   font-family: inherit;
+  color: var(--text-primary);
 }
 
 .body-1-textarea {
@@ -149,12 +222,14 @@
   white-space: pre-wrap;
   overflow: hidden;
   resize: none;
+  color: var(--text-primary);
+  background-color: var(--background);
 }
 
 .welcome-message {
   position: relative;
   align-self: flex-start;
-  background-color: #f5f5f5;
+  background-color: var(--welcome-bg);
   border-radius: 12px;
   padding: 24px 48px 24px 24px;
   margin-bottom: 24px;
@@ -174,6 +249,7 @@
   pointer-events: auto;
   opacity: 1;
   margin-top: 30px;
+  color: var(--text-primary);
 }
 
 .centered-message.fade-out {
@@ -182,7 +258,12 @@
 }
 
 .gradient-text {
-  background: linear-gradient(90deg, #1434cb, #0074cc, #00c6ff);
+  background: linear-gradient(
+    90deg,
+    var(--gradient-start),
+    var(--gradient-mid),
+    var(--gradient-end)
+  );
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   font-weight: 700;
@@ -196,12 +277,13 @@
   font-size: 1.3rem; /* about 20px */
   line-height: 1.6;
   word-wrap: break-word;
+  color: var(--text-primary);
 }
 
 .user {
   align-self: flex-end;
-  background-color: var(--nova-primary-color, #007bff);
-  color: white;
+  background-color: var(--chat-user-bg);
+  color: var(--palette-default-surface-1);
   font-size: 1.25rem; /* about 20px */
   font-weight: 500;
   padding: 15px 24px;
@@ -210,18 +292,19 @@
 
 .bot {
   align-self: flex-start;
-  background-color: var(--nova-secondary-bg, #e9ecef);
-  color: #333;
+  background-color: var(--chat-bot-bg);
+  color: var(--text-primary);
   margin-left: -100px;
 }
 
 .code-snippet {
-  background-color: #f8f9fa;
+  background-color: var(--code-bg);
   padding: 10px;
   border-radius: 5px;
   overflow-x: auto;
   font-family: monospace;
   margin-top: 10px;
+  color: var(--text-primary);
 }
 .sticky-toggle {
   position: sticky;
@@ -237,6 +320,8 @@
 
 .sticky-toggle button {
   transform: scale(1.2);
+  background: transparent !important;
+  box-shadow: none !important;
 }
 
 .history-button {
@@ -247,7 +332,7 @@
   font-size: 20px;
   font-weight: 400;
   font-family: var(--nova-font-family, sans-serif);
-  color: #ffffff;
+  color: var(--palette-default-text);
   background: none;
   border: none;
 }
@@ -265,7 +350,7 @@
   display: flex;
   align-items: center;
   justify-content: flex-start;
-  padding: 8px 12px;
+  padding: 10px, 20x;
   width: 100%;
   white-space: nowrap;
   overflow: hidden;
@@ -277,6 +362,7 @@
 .tab-label {
   font-size: 23px; /* Or your preferred size */
   font-weight: 500;
+  color: #ffffff;
 }
 
 /* Hide text in collapsed state */
@@ -289,13 +375,15 @@
   padding: 12px 28px;
   border-radius: 10px;
   margin-top: 20px;
+  background-color: var(--default-active);
+  color: var(--palette-default-surface-1);
 }
 
 .preview-box {
   margin-top: 12px;
-  border: 1px solid #ccc;
+  border: 1px solid var(--preview-border);
   padding: 12px;
-  background: #fff;
+  background: var(--preview-bg);
   border-radius: 8px;
 }
 
@@ -313,4 +401,30 @@
 .sticky-toggle button {
   background: transparent !important;
   box-shadow: none !important;
+}
+
+/* Optional: Adjust galaxy background opacity for better contrast in light mode */
+.galaxy-background {
+  opacity: 0.85; /* Slightly transparent in light for visibility */
+  transition: opacity 0.3s;
+}
+
+[data-theme="dark"] .galaxy-background {
+  opacity: 1; /* Full opacity in dark mode */
+}
+
+.tab-label-wrapper {
+  max-width: 200px; /* adjust if needed */
+  display: inline-block;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  vertical-align: middle;
+  line-height: 2;
+}
+.tab-label {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: inline-block;
 }

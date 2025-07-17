@@ -6,6 +6,7 @@ import {
   Utility,
 } from "@visa/nova-react";
 import { VisaSendHigh, VisaCloseLow } from "@visa/nova-icons-react";
+import BotCodeReveal from "./BotCodeReveal";
 
 export default function ChatBot({
   showGreeting,
@@ -58,38 +59,13 @@ export default function ChatBot({
                 {msg.text}
               </Typography>
 
-              {msg.suggestions && (
-                <ul>
-                  {msg.suggestions.map((sug, i) => (
-                    <li key={i}>{sug}</li>
-                  ))}
-                </ul>
-              )}
-              {msg.code && (
-                <>
-                  <pre className="code-snippet">{msg.code}</pre>
-                  <Button
-                    variant="secondary"
-                    size="lg"
-                    onClick={() => copyToClipboard(msg.code, idx)}
-                    aria-label="Copy code to clipboard"
-                    className="copy-button"
-                  >
-                    {copiedIndex === idx ? "✅ Copied!" : "Copy Code"}
-                  </Button>
-                  <div className="live-preview">
-                    <Typography
-                      variant="subtitle-2"
-                      style={{ marginTop: "10px" }}
-                    >
-                      Live Preview:
-                    </Typography>
-                    <div
-                      className="preview-box"
-                      dangerouslySetInnerHTML={{ __html: msg.code }}
-                    />
-                  </div>
-                </>
+              {msg.code && msg.type === "bot" && (
+                <BotCodeReveal
+                  code={msg.code}
+                  suggestions={msg.suggestions}
+                  copied={copiedIndex === idx}
+                  onCopy={() => copyToClipboard(msg.code, idx)}
+                />
               )}
             </div>
           ))}
@@ -99,13 +75,34 @@ export default function ChatBot({
 
       <div className="input-area">
         {showWelcome && (
-          <div className="welcome-message">
+          <div className="welcome-message" style={{ position: "relative" }}>
             <Typography
               variant="headline-1"
               style={{ marginBottom: "8px", textAlign: "left" }}
             >
               Welcome to NovaUI, your personal UI assistant
             </Typography>
+
+            <Typography
+              variant="body"
+              style={{
+                position: "absolute",
+                top: "80px",
+                left: "0",
+                fontSize: "20px",
+                color: "var(--text-primary)",
+                maxWidth: "1000px",
+                marginRight: "20px",
+                marginLeft: "25px",
+                lineHeight: "1.4",
+                pointerEvents: "none",
+              }}
+            >
+              Describe what you want to build — like “responsive login form with
+              remember me” — and NovaUI will suggest components and generate
+              code.
+            </Typography>
+
             <Button
               variant="tertiary"
               size="sm"
@@ -115,9 +112,9 @@ export default function ChatBot({
                 top: "8px",
                 right: "15px",
                 cursor: "pointer",
-                background: "transparent", // transparent background
-                border: "none", // no border
-                padding: 0, // no extra space
+                background: "transparent",
+                border: "none",
+                padding: 0,
               }}
               aria-label="Close welcome message"
             >
@@ -137,6 +134,8 @@ export default function ChatBot({
               minHeight: "150px",
               minWidth: "1165px",
               borderRadius: "16px",
+              backgroundColor: "var(--background)",
+              border: "1px solid var(--preview-border)", // fixes outline
             }}
           >
             <Input

@@ -4,26 +4,26 @@
       "Input: For username/email and password fields.",
       "Checkbox: For 'Remember me' option.",
       "Button: For submit action.",
-      "Form: To wrap the login form.",
+      "Typography: For headings or instructions.",
       "Link: For forgot password."
     ],
-    "code": "<input type='email' />\n<input type='password' />\n<button>Login</button>"
+    "code": "<form>\n  <Input placeholder='Email' type='email' />\n  <Input placeholder='Password' type='password' />\n  <Checkbox label='Remember me' />\n  <Button title='Login' />\n</form>"
   },
   "form": {
     "components": [
-      "Form: Container for form elements.",
       "Input: Text input fields.",
-      "Input (multiline): Multi-line input.",
-      "Button: Submit button."
+      "Input (as='textarea'): Multi-line input.",
+      "Button: Submit button.",
+      "InputContainer: Wrapper for grouped inputs."
     ],
-    "code": "<form>\n  <input type='text' />\n  <button>Submit</button>\n</form>"
+    "code": "<form>\n  <InputContainer>\n    <Input placeholder='Your name' />\n    <Input as='textarea' rows={4} placeholder='Your message' />\n  </InputContainer>\n  <Button title='Submit' />\n</form>"
   },
   "navigation": {
     "components": [
-      "Nav: Navigation container.",
       "Tabs: For tabbed navigation.",
-      "Link: For navigation links."
+      "Link: For navigation links.",
+      "Typography: For section titles."
     ],
-    "code": "<Nav>\n  <Tabs>...</Tabs>\n</Nav>"
+    "code": "<div>\n  <Typography variant='headline-1'>My Tabs</Typography>\n  <Tabs>\n    <Link>Tab 1</Link>\n    <Link>Tab 2</Link>\n  </Tabs>\n</div>"
   }
 }

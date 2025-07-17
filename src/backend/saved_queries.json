@@ -1,0 +1,26 @@
+[
+  {
+    "query": "loginf forum with checkbox and password",
+    "components": [
+      "Input",
+      "Input",
+      "Checkbox",
+      "Button"
+    ],
+    "code": "<form>\n  <Input placeholder='Email' type='email' />\n  <Input placeholder='Password' type='password' />\n  <Checkbox label='Remember me' />\n  <Button title='Login' variant='primary' buttonSize='medium' />\n</form>"
+  },
+  {
+    "query": "Long message i am not sseeeing it shrink",
+    "components": [
+      "Typography"
+    ],
+    "code": "<Typography variant='body'>Long message i am not sseeeing it shrink</Typography>"
+  },
+  {
+    "query": "thank you it is working now",
+    "components": [
+      "Typography"
+    ],
+    "code": "<Typography>thank you it is working now</Typography>"
+  }
+]
