@@ -47,7 +47,7 @@ export default function LandingPage({ onStart }) {
       <div className="stars"></div>
       <div className="shooting-star"></div>
 
-      <main className="page-container max-w-screen-lg mx-auto px-4">
+      <main className="page-container">
         <header className="header">
           <img src={VisaLogo} alt="Visa Logo" className="logo" />
           <Typography
@@ -61,15 +61,15 @@ export default function LandingPage({ onStart }) {
             style={{
               marginLeft: "auto",
               cursor: "pointer",
-              padding: "8px",
+              padding: "0.5rem",
             }}
             onClick={toggleTheme}
           >
             {isDarkMode ? (
               <VisaModeLightHigh
                 style={{
-                  width: "40px",
-                  height: "40px",
+                  width: "2.5rem",
+                  height: "2.5rem",
                   color: "var(--palette-default-text)",
                 }}
                 aria-label="Switch to light mode"
@@ -77,8 +77,8 @@ export default function LandingPage({ onStart }) {
             ) : (
               <VisaModeDarkHigh
                 style={{
-                  width: "40px",
-                  height: "40px",
+                  width: "2.5rem",
+                  height: "2.5rem",
                   color: "var(--palette-default-text)",
                 }}
                 aria-label="Switch to dark mode"
@@ -97,23 +97,12 @@ export default function LandingPage({ onStart }) {
               variant="display-1"
               style={{ color: "var(--text-accent)" }}
             >
-              Welcome to{" "}
-              <span
-                style={{
-                  background:
-                    "linear-gradient(90deg, var(--gradient-start), var(--gradient-mid), var(--gradient-end))",
-                  WebkitBackgroundClip: "text",
-                  WebkitTextFillColor: "transparent",
-                  fontWeight: "700",
-                }}
-              >
-                NovaUI
-              </span>
+              Welcome to <span className="gradient-text">NovaUI</span>
             </Typography>
 
             <Typography
               variant="headline-2"
-              style={{ color: "var(--text-primary)", marginTop: "24px" }}
+              style={{ color: "var(--text-primary)", marginTop: "1.5rem" }}
             >
               Make your wish. Turn your prompts into UI components.
             </Typography>
@@ -125,7 +114,7 @@ export default function LandingPage({ onStart }) {
             style={{
               maxWidth: "800px",
               margin: "0 auto",
-              padding: "0 24px",
+              padding: "0 1.5rem",
               display: "flex",
               flexDirection: "column",
               alignItems: "flex-start",
@@ -135,15 +124,15 @@ export default function LandingPage({ onStart }) {
               style={{
                 display: "flex",
                 alignItems: "center",
-                gap: "16px",
-                marginBottom: "32px",
+                gap: "1rem",
+                marginBottom: "2rem",
               }}
             >
               <VisaDeviceMonitorHigh
                 aria-label="Visa Device Monitor High"
                 style={{
-                  width: "80px",
-                  height: "80px",
+                  width: "5rem",
+                  height: "5rem",
                   color: "var(--text-accent)",
                 }}
               />
@@ -151,7 +140,7 @@ export default function LandingPage({ onStart }) {
                 variant="headline-2"
                 style={{
                   color: "var(--text-primary)",
-                  fontSize: "35px",
+                  fontSize: "2.2rem",
                 }}
               >
                 Start coding
@@ -162,10 +151,10 @@ export default function LandingPage({ onStart }) {
               variant="body-l"
               style={{
                 color: "var(--text-primary)",
-                fontSize: "25px",
+                fontSize: "1.5rem",
                 textAlign: "left",
                 lineHeight: "1.5",
-                marginBottom: "40px",
+                marginBottom: "2.5rem",
               }}
             >
               Discover the fastest way to go from idea to implementation:
@@ -181,10 +170,11 @@ export default function LandingPage({ onStart }) {
                 onStart();
               }}
               style={{
-                padding: "20px 40px",
-                fontSize: "20px",
-                width: "250px",
-                height: "60px",
+                padding: "1rem 2rem",
+                fontSize: "1.25rem",
+                width: "100%",
+                maxWidth: "250px",
+                height: "3.75rem",
               }}
             >
               Get Started

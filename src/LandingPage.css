@@ -1,5 +1,3 @@
-/* LandingPage.css */
-
 :root {
   --default-active: #1434cb;
   --default-active-hover: #173be8;
@@ -45,9 +43,22 @@
   --gradient-end: #80d7ff;
 }
 
+html {
+  box-sizing: border-box;
+  font-size: 16px;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+}
+
 body {
+  margin: 0;
   background-color: var(--palette-default-surface-1);
   color: var(--palette-default-text);
+  font-family: system-ui, sans-serif;
   transition: background-color 0.3s, color 0.3s;
 }
 
@@ -56,16 +67,16 @@ body {
   display: flex;
   flex-direction: column;
   background-color: var(--surface-bg);
+  padding: 0 1.5rem;
 }
 
 .header {
   width: 100%;
   background-color: var(--header-bg);
-  padding: 32px 16px;
-  padding-left: 30px;
+  padding: 2rem 1.5rem;
   display: flex;
   align-items: center;
-  gap: 30px;
+  gap: 2rem;
   min-height: 80px;
 }
 
@@ -79,20 +90,19 @@ body {
   width: 100%;
   background-color: var(--blue-bar-bg);
   color: var(--blue-bar-text);
-  padding: 16px;
-  padding-left: 40px;
+  padding: 1rem 2rem;
   text-align: left;
 }
 
 .hero {
   display: flex;
   flex-direction: column;
-  align-items: flex-start; /* ⬅️ Align content to the left */
+  align-items: flex-start;
   justify-content: center;
-  padding: 5px 80px; /* ⬅️ Add left/right padding if needed */
-  text-align: center; /* ⬅️ Align text to the left */
-  min-height: 1000px;
-  margin-bottom: 24px;
+  padding: 2rem 5vw;
+  text-align: left;
+  min-height: 80vh;
+  margin-bottom: 2rem;
   background-repeat: repeat;
   background-size: 200px 200px;
 }
@@ -100,22 +110,52 @@ body {
 .cta-section {
   width: 100%;
   background-color: var(--cta-bg);
-  padding: 48px 0;
+  padding: 3rem 1.5rem;
   text-align: center;
   min-height: 400px;
   z-index: 1;
 }
 
-/* Optional: Adjust galaxy background opacity for better contrast in light mode */
 .galaxy-background {
-  opacity: 0.85; /* Slightly transparent in light for visibility */
+  opacity: 0.85;
   transition: opacity 0.3s;
 }
 
 [data-theme="dark"] .galaxy-background {
-  opacity: 1; /* Full opacity in dark mode */
+  opacity: 1;
 }
 
-.page-container {
-  zoom: 0.5;
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 1rem;
+  }
+
+  .hero {
+    padding: 1.5rem;
+    text-align: center;
+    align-items: center;
+  }
+
+  .blue-bar {
+    padding: 1rem;
+  }
+
+  .cta-section {
+    padding: 2rem 1rem;
+  }
+}
+
+.gradient-text {
+  background: linear-gradient(
+    90deg,
+    var(--gradient-start),
+    var(--gradient-mid),
+    var(--gradient-end)
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-weight: 700;
 }
