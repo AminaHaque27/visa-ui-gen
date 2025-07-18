@@ -67,9 +67,8 @@ body {
   display: flex;
   flex-direction: column;
   background-color: var(--surface-bg);
-  padding: 0 1.5rem;
+  padding: 0;
 }
-
 .header {
   width: 100%;
   background-color: var(--header-bg);
@@ -100,19 +99,20 @@ body {
   align-items: flex-start;
   justify-content: center;
   padding: 2rem 5vw;
-  text-align: left;
   min-height: 80vh;
-  margin-bottom: 2rem;
+  margin-bottom: 1rem;
   background-repeat: repeat;
   background-size: 200px 200px;
+  text-align: left;
 }
 
 .cta-section {
   width: 100%;
   background-color: var(--cta-bg);
-  padding: 3rem 1.5rem;
+  padding: 2.5rem 1rem;
   text-align: center;
-  min-height: 400px;
+  min-height: 200px;
+  margin-top: -5rem;
   z-index: 1;
 }
 
@@ -158,4 +158,15 @@ body {
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   font-weight: 700;
+}
+
+@media (max-width: 768px) {
+  .hero {
+    padding-top: 1rem;
+  }
+
+  .cta-section {
+    min-height: 250px;
+    padding: 1.5rem 1rem;
+  }
 }
