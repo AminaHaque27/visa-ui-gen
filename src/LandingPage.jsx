@@ -95,7 +95,10 @@ export default function LandingPage({ onStart }) {
           <div style={{ maxWidth: "800px", margin: "0 auto" }}>
             <Typography
               variant="display-1"
-              style={{ color: "var(--text-accent)" }}
+              style={{
+                color: "var(--text-accent)",
+                marginTop: "-1rem",
+              }}
             >
               Welcome to <span className="gradient-text">NovaUI</span>
             </Typography>
