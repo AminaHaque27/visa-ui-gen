@@ -7,15 +7,13 @@ This web-based tool helps developers quickly turn plain-English UI descriptions 
 - Suggested components from the **Visa Product Design System (Nova UI)**
 - Auto-generated code snippets styled with Visa's design tokens
 
-The goal is to go from idea to usable code in seconds—perfect for rapid prototyping and exploration.
+The goal is to go from idea to usable code quickly for rapid prototyping and exploration.
 
 ---
 
-> ⚠️ **Display Notice & Usage Tip**  
-> For the best experience, make sure your browser zoom is set to **100%**.  
-> If elements appear oversized or misaligned, try zooming out slightly.
+> **Usage Tip**  
 >  On first use, loading may take a few seconds due to backend initialization.
-Please press Enter only once after entering your input—spamming Enter may cause delays or duplicate results.
+Please press or click Enter only once after entering your input—spamming Enter may cause delays or duplicate results.
 
 ---
 
