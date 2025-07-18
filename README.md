@@ -12,8 +12,11 @@ The goal is to go from idea to usable code quickly for rapid prototyping and exp
 ---
 
 > **Usage Tip**  
->  On first use, loading may take a few seconds due to backend initialization.
-Please press or click Enter only once after entering your input—spamming Enter may cause delays or duplicate results.
+> On first use, the app may take a few seconds to load due to backend initialization.  
+> Please press or click **Enter** only once after submitting your prompt.  
+>  
+> At times, it may take up to **60 seconds** to load. **Please be patient** as the server warms up.  
+> _(A loading indicator will be added in a future update.)_
 
 ---
 
