@@ -11,9 +11,11 @@ The goal is to go from idea to usable code in seconds—perfect for rapid protot
 
 ---
 
-> ⚠️ **Display Notice:**  
+> ⚠️ **Display Notice & Usage Tip**  
 > For the best experience, make sure your browser zoom is set to **100%**.  
 > If elements appear oversized or misaligned, try zooming out slightly.
+>  On first use, loading may take a few seconds due to backend initialization.
+Please press Enter only once after entering your input—spamming Enter may cause delays or duplicate results.
 
 ---
 
