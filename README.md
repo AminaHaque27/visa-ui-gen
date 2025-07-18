@@ -59,6 +59,33 @@ During development, I also used ChatGPT to:
 - Offer more formatting and layout options
 
 ---
+## Local Development & Setup
+To run this project locally, ensure you have the following installed, Node.js (v18 or higher), Python 3.10 or higher, a valid OpenAI API Key
+1. Clone the repository
+2. # Install frontend dependencies
+npm install
+# Start the frontend development server
+npm run dev
+
+This will start the Vite development server
+
+3. Backend Setup (FastAPI)
+# Navigate to the backend folder
+cd backend
+
+# Create and activate a virtual environment
+python -m venv env
+source env/bin/activate        # On Windows: env\Scripts\activate
+
+# Install backend dependencies
+pip install -r requirements.txt
+
+# Start the FastAPI backend server
+uvicorn app:app --reload
+
+In the backend folder be sure to create a .env file and add your OpenAI API Key
+Once both the frontend and backend servers are running visit your localhost.
+
 
 ## 🔗 Live Demo
 
