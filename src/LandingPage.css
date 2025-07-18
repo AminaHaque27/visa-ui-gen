@@ -20,7 +20,7 @@
   --gradient-mid: #0074cc;
   --gradient-end: #00c6ff;
 
-  --scale: 0.67;
+  --scale: 0.576;
 }
 
 [data-theme="dark"] {
@@ -44,7 +44,7 @@
   --gradient-mid: #dbf4ff;
   --gradient-end: #80d7ff;
 
-  --scale: 0.67;
+  --scale: 0.576;
 }
 
 html {
@@ -183,7 +183,7 @@ body {
   /* For medium screens, apply a slight reduction beyond base scale */
   :root,
   [data-theme="dark"] {
-    --scale: 0.67 * 0.9; /* 90% of base scale */
+    --scale: calc(0.576 * 0.9); /* 90% of base scale */
   }
   body {
     font-size: calc(var(--scale) * 1em) !important; /* Override font sizes */
@@ -195,7 +195,7 @@ body {
   /* For small screens, further reduce */
   :root,
   [data-theme="dark"] {
-    --scale: 0.67 * 0.8; /* 80% of base scale */
+    --scale: calc(0.576 * 0.8); /* 80% of base scale */
   }
   body {
     font-size: calc(var(--scale) * 1em) !important;
@@ -209,7 +209,7 @@ body {
   /* For mobile, maximum shrinkage while preserving layout */
   :root,
   [data-theme="dark"] {
-    --scale: 0.67 * 0.7; /* 70% of base scale */
+    --scale: calc(0.576 * 0.7); /* 70% of base scale */
   }
   body {
     font-size: calc(var(--scale) * 1em) !important;

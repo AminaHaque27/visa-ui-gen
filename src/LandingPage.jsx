@@ -14,8 +14,8 @@ export default function LandingPage() {
   const [isDarkMode, setIsDarkMode] = useState(false);
   const navigate = useNavigate();
 
-  // Scale factor: reduce all size-related values to 67% of original
-  const scale = 0.67;
+  // Scale factor: reduce all size-related values to 80% of previous
+  const scale = 0.576;
 
   useEffect(() => {
     const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
