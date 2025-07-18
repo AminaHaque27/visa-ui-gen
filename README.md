@@ -59,17 +59,45 @@ During development, I also used ChatGPT to:
 - Offer more formatting and layout options
 
 ---
+
+## 🔗 Live Demo
+
+👉 [https://visa-ui-gen.vercel.app](https://visa-ui-gen.vercel.app)
+
 ## Local Development & Setup
-To run this project locally, ensure you have the following installed, Node.js (v18 or higher), Python 3.10 or higher, a valid OpenAI API Key
-1. Clone the repository
-2. # Install frontend dependencies
+
+To run this project locally, ensure you have the following installed:
+
+- Node.js (v18 or higher)  
+- Python 3.10 or higher  
+- A valid OpenAI API key
+
+### 1. Clone the Repository
+
+```bash
+git clone https://github.com/AminaHaque27/visa-ui-gen.git
+cd visa-ui-gen
+```
+
+### 2. Frontend Setup
+
+```bash
+# Install frontend dependencies
 npm install
+
 # Start the frontend development server
 npm run dev
+```
 
-This will start the Vite development server
+The Vite dev server will start at:
 
-3. Backend Setup (FastAPI)
+```
+http://localhost:5173
+```
+
+### 3. Backend Setup (FastAPI)
+
+```bash
 # Navigate to the backend folder
 cd backend
 
@@ -80,13 +108,30 @@ source env/bin/activate        # On Windows: env\Scripts\activate
 # Install backend dependencies
 pip install -r requirements.txt
 
-# Start the FastAPI backend server
+# Start the FastAPI server
 uvicorn app:app --reload
+```
 
-In the backend folder be sure to create a .env file and add your OpenAI API Key
-Once both the frontend and backend servers are running visit your localhost.
+The backend will run at:
 
+```
+http://localhost:8000
+```
 
-## 🔗 Live Demo
+### 4. Environment Variables
 
-👉 [https://visa-ui-gen.vercel.app](https://visa-ui-gen.vercel.app)
+In the `backend/` folder, create a `.env` file and add your OpenAI API key:
+
+```
+OPENAI_API_KEY=your_openai_api_key_here
+```
+
+### 5. Access the Application
+
+Once both the frontend and backend servers are running, visit:
+
+```
+http://localhost:5173
+```
+
+You can now enter UI prompts and generate component suggestions and example code.
