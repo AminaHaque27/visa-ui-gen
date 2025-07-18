@@ -31,6 +31,16 @@ The goal is to go from idea to usable code quickly for rapid prototyping and exp
 - **Accessibility:** Includes keyboard navigation, visible focus states, and WCAG-friendly contrast
 
 ---
+## 💬 Example Prompts
+
+Try typing prompts like these into the app:
+- `"responsive login form with remember me"`
+- `"contact form with name, email, and message"`
+- `"email input and list of checkboxes"`
+If the AI suggestion service is temporarily unavailable (e.g. due to rate limits or network issues), the app will display a fallback UI with sample components and code. 
+
+
+
 
 ## 🧠 AI Involvement
 
