@@ -1,0 +1,42 @@
+/* Add media queries to ensure responsive scaling across devices */
+/* These adjust the scale factor based on screen width, keeping layout intact but shrinking proportionally */
+
+@media (max-width: 1200px) {
+  /* For medium screens, apply a slight reduction beyond base scale */
+  #generator-sidebar {
+    --custom-scale: 0.67 * 0.9; /* 90% of base scale */
+  }
+  #generator-sidebar * {
+    font-size: calc(
+      var(--custom-scale) * 1em
+    ) !important; /* Override font sizes */
+  }
+  /* Adjust specific elements if needed, but layout remains the same */
+}
+
+@media (max-width: 800px) {
+  /* For small screens, further reduce */
+  #generator-sidebar {
+    --custom-scale: 0.67 * 0.8; /* 80% of base scale */
+  }
+  #generator-sidebar * {
+    font-size: calc(var(--custom-scale) * 1em) !important;
+    padding: calc(var(--custom-scale) * 0.5em) !important; /* Scale paddings */
+    margin: calc(var(--custom-scale) * 0.5em) !important; /* Scale margins */
+  }
+  /* Truncate text more aggressively if needed, but use existing function */
+}
+
+@media (max-width: 480px) {
+  /* For mobile, maximum shrinkage while preserving layout */
+  #generator-sidebar {
+    --custom-scale: 0.67 * 0.7; /* 70% of base scale */
+  }
+  #generator-sidebar * {
+    font-size: calc(var(--custom-scale) * 1em) !important;
+    width: auto !important; /* Ensure fluidity */
+  }
+  .history-tab {
+    flex-direction: column; /* Stack if too narrow, but keep overall layout */
+  }
+}

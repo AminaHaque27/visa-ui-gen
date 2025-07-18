@@ -30,6 +30,8 @@
   --star-color-1: #0f2595;
   --star-color-2: #173be8;
   --star-color-3: #1434cb;
+
+  --scale: 0.75;
 }
 
 [data-theme="dark"] {
@@ -62,6 +64,8 @@
   --star-color-1: #ffffff;
   --star-color-2: #cccccc;
   --star-color-3: #999999;
+
+  --scale: 0.75;
 }
 
 body {
@@ -72,21 +76,23 @@ body {
 
 .appContainer {
   display: grid;
-  grid-template-columns: var(--sidebar-width, 400px) 1fr;
+  grid-template-columns: var(--sidebar-width, calc(400px * var(--scale))) 1fr;
+  grid-template-rows: 1fr;
   transition: grid-template-columns 0.3s ease;
   height: 100vh;
   position: relative;
+  overflow: hidden;
 }
 
 .appContainer.collapsed {
-  --sidebar-width: 60px; /* collapsed width */
+  --sidebar-width: calc(60px * var(--scale)); /* collapsed width */
 }
 .mainContent {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  padding: 24px;
+  padding: calc(24px * var(--scale));
   height: 100vh;
   background-color: var(--background);
 }
@@ -94,35 +100,36 @@ body {
 .message-area {
   flex-grow: 1;
   width: 100%;
-  max-height: 100vh; /* Limit height to 60% of viewport */
+  max-height: calc(100vh * var(--scale)); /* Limit height to 60% of viewport */
   overflow-y: auto; /* This enables scrolling */
-  padding: 24px 0;
+  padding: calc(24px * var(--scale)) 0;
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
 .input-area {
-  padding: 24px;
+  padding: calc(24px * var(--scale));
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-bottom: 50px;
-  margin-right: 350px;
+  margin-bottom: calc(50px * var(--scale));
+  margin-right: calc(350px * var(--scale));
 }
 
 .send-icon {
   position: absolute;
-  right: -225px;
-  bottom: 16px;
+  right: calc(-225px * var(--scale));
+  bottom: calc(16px * var(--scale));
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 6px;
+  padding: calc(6px * var(--scale));
   border-radius: 50%;
   background-color: var(--welcome-bg);
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 calc(1px * var(--scale)) calc(4px * var(--scale))
+    rgba(0, 0, 0, 0.1);
   transition: transform 0.2s ease, opacity 0.3s ease;
   opacity: 0;
   animation: fadeInUp 0.3s forwards, pulse 1s ease-out 0.3s 1;
@@ -134,8 +141,8 @@ body {
 }
 
 .send-icon:focus {
-  outline: 2px solid var(--text-accent);
-  outline-offset: 2px;
+  outline: calc(2px * var(--scale)) solid var(--text-accent);
+  outline-offset: calc(2px * var(--scale));
 }
 
 .send-icon:active {
@@ -149,13 +156,13 @@ body {
   bottom: 125%;
   background: var(--text-primary);
   color: var(--palette-default-surface-1);
-  font-size: 12px;
-  padding: 4px 8px;
-  border-radius: 4px;
+  font-size: calc(12px * var(--scale));
+  padding: calc(4px * var(--scale)) calc(8px * var(--scale));
+  border-radius: calc(4px * var(--scale));
   white-space: nowrap;
   opacity: 0;
   pointer-events: none;
-  transform: translateY(5px);
+  transform: translateY(calc(5px * var(--scale)));
   transition: opacity 0.2s ease, transform 0.2s ease;
 }
 
@@ -167,7 +174,7 @@ body {
 /* Animations */
 @keyframes fadeInUp {
   from {
-    transform: translateY(10px);
+    transform: translateY(calc(10px * var(--scale)));
     opacity: 0;
   }
   to {
@@ -193,7 +200,7 @@ body {
     transform: translateY(0);
   }
   50% {
-    transform: translateY(-4px);
+    transform: translateY(calc(-4px * var(--scale)));
   }
   100% {
     transform: translateY(0);
@@ -201,23 +208,23 @@ body {
 }
 
 .headline-2 {
-  font-size: 2rem;
+  font-size: calc(2rem * var(--scale));
   font-weight: 600;
-  line-height: 2.5rem;
+  line-height: calc(2.5rem * var(--scale));
   font-family: inherit;
   color: var(--text-primary);
 }
 
 .body-1-textarea {
-  font-size: 1.5rem;
+  font-size: calc(1.5rem * var(--scale));
   font-weight: 400;
-  line-height: 1.5rem;
+  line-height: calc(1.5rem * var(--scale));
   font-family: inherit;
 
-  padding-top: 20px;
-  padding-right: 12px;
-  padding-left: 12px;
-  padding-bottom: 70px;
+  padding-top: calc(20px * var(--scale));
+  padding-right: calc(12px * var(--scale));
+  padding-left: calc(12px * var(--scale));
+  padding-bottom: calc(70px * var(--scale));
 
   white-space: pre-wrap;
   overflow: hidden;
@@ -230,12 +237,14 @@ body {
   position: relative;
   align-self: flex-start;
   background-color: var(--welcome-bg);
-  border-radius: 12px;
-  padding: 24px 48px 24px 24px;
-  margin-bottom: 24px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  border-radius: calc(12px * var(--scale));
+  padding: calc(24px * var(--scale)) calc(48px * var(--scale))
+    calc(24px * var(--scale)) calc(24px * var(--scale));
+  margin-bottom: calc(24px * var(--scale));
+  box-shadow: 0 calc(2px * var(--scale)) calc(8px * var(--scale))
+    rgba(0, 0, 0, 0.08);
   width: 130%;
-  min-height: 150px;
+  min-height: calc(150px * var(--scale));
 }
 .centered-message {
   position: absolute;
@@ -244,11 +253,11 @@ body {
   transform: translate(-35%, -50%);
   text-align: center;
   z-index: 10;
-  margin-left: 50px;
+  margin-left: calc(50px * var(--scale));
   transition: opacity 0.4s ease;
   pointer-events: auto;
   opacity: 1;
-  margin-top: 30px;
+  margin-top: calc(30px * var(--scale));
   color: var(--text-primary);
 }
 
@@ -271,10 +280,10 @@ body {
 
 .chat-bubble {
   max-width: 70%;
-  padding: 10px 20px;
-  border-radius: 18px;
-  margin-bottom: 16px;
-  font-size: 1.3rem;
+  padding: calc(10px * var(--scale)) calc(20px * var(--scale));
+  border-radius: calc(18px * var(--scale));
+  margin-bottom: calc(16px * var(--scale));
+  font-size: calc(1.3rem * var(--scale));
   line-height: 1.6;
   word-wrap: break-word;
   color: var(--text-primary);
@@ -284,37 +293,37 @@ body {
   align-self: flex-end;
   background-color: var(--chat-user-bg);
   color: var(--palette-default-surface-1);
-  font-size: 1.25rem;
+  font-size: calc(1.25rem * var(--scale));
   font-weight: 500;
-  padding: 15px 24px;
-  margin-right: -90px;
+  padding: calc(15px * var(--scale)) calc(24px * var(--scale));
+  margin-right: calc(-90px * var(--scale));
 }
 
 .bot {
   align-self: flex-start;
   background-color: var(--chat-bot-bg);
   color: var(--text-primary);
-  margin-left: -100px;
+  margin-left: calc(-100px * var(--scale));
 }
 
 .code-snippet {
   background-color: var(--code-bg);
-  padding: 10px;
-  border-radius: 5px;
+  padding: calc(10px * var(--scale));
+  border-radius: calc(5px * var(--scale));
   overflow-x: auto;
   font-family: monospace;
-  margin-top: 10px;
+  margin-top: calc(10px * var(--scale));
   color: var(--text-primary);
 }
 .sticky-toggle {
   position: sticky;
   top: 0;
   z-index: 100;
-  height: 60px;
+  height: calc(60px * var(--scale));
   display: flex;
   justify-content: flex-end;
   align-items: center;
-  padding: 8px;
+  padding: calc(8px * var(--scale));
   background-color: transparent;
 }
 
@@ -329,7 +338,7 @@ body {
   align-items: center;
   justify-content: flex-start;
   width: 100%;
-  font-size: 20px;
+  font-size: calc(20px * var(--scale));
   font-weight: 400;
   font-family: var(--nova-font-family, sans-serif);
   color: var(--palette-default-text);
@@ -349,7 +358,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: flex-start;
-  padding: 10px, 20x;
+  padding: calc(10px * var(--scale)), calc(20x * var(--scale));
   width: 100%;
   white-space: nowrap;
   overflow: hidden;
@@ -359,7 +368,7 @@ body {
 }
 
 .tab-label {
-  font-size: 23px;
+  font-size: calc(23px * var(--scale));
   font-weight: 500;
   color: #ffffff;
 }
@@ -369,30 +378,30 @@ body {
 }
 
 .copy-button {
-  font-size: 1.25rem;
-  padding: 12px 28px;
-  border-radius: 10px;
-  margin-top: 20px;
+  font-size: calc(1.25rem * var(--scale));
+  padding: calc(12px * var(--scale)) calc(28px * var(--scale));
+  border-radius: calc(10px * var(--scale));
+  margin-top: calc(20px * var(--scale));
   background-color: var(--default-active);
   color: var(--palette-default-surface-1);
 }
 
 .preview-box {
-  margin-top: 12px;
-  border: 1px solid var(--preview-border);
-  padding: 12px;
+  margin-top: calc(12px * var(--scale));
+  border: calc(1px * var(--scale)) solid var(--preview-border);
+  padding: calc(12px * var(--scale));
   background: var(--preview-bg);
-  border-radius: 8px;
+  border-radius: calc(8px * var(--scale));
 }
 
 .appContainer.collapsed #generator-sidebar {
-  width: 60px;
+  width: calc(60px * var(--scale));
   overflow: hidden;
   transition: width 0.3s ease;
 }
 
 .appContainer #generator-sidebar {
-  width: 350px;
+  width: calc(350px * var(--scale));
   transition: width 0.3s ease;
 }
 
@@ -411,7 +420,7 @@ body {
 }
 
 .tab-label-wrapper {
-  max-width: 200px; /* adjust if needed */
+  max-width: calc(200px * var(--scale)); /* adjust if needed */
   display: inline-block;
   overflow: hidden;
   white-space: nowrap;
@@ -426,8 +435,53 @@ body {
   display: inline-block;
 }
 .page-container {
-  zoom: 0.67;
-  min-height: calc(100vh / 0.67); /* This ensures full height after scaling */
-  overflow-y: auto; /* Enable scroll if needed */
-  padding-top: 0vh;
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transform-origin: top left;
+}
+
+/* Add media queries to ensure responsive scaling across devices */
+/* These adjust the scale factor based on screen width, keeping layout intact but shrinking proportionally */
+
+@media (max-width: 1200px) {
+  /* For medium screens, apply a slight reduction beyond base scale */
+  :root,
+  [data-theme="dark"] {
+    --scale: 0.75 * 0.9; /* 90% of base scale */
+  }
+  body {
+    font-size: calc(var(--scale) * 1em) !important; /* Override font sizes */
+  }
+  /* Adjust specific elements if needed, but layout remains the same */
+}
+
+@media (max-width: 800px) {
+  /* For small screens, further reduce */
+  :root,
+  [data-theme="dark"] {
+    --scale: 0.75 * 0.8; /* 80% of base scale */
+  }
+  body {
+    font-size: calc(var(--scale) * 1em) !important;
+    padding: calc(var(--scale) * 0.5em) !important; /* Scale paddings */
+    margin: calc(var(--scale) * 0.5em) !important; /* Scale margins */
+  }
+  /* Truncate text more aggressively if needed, but use existing function */
+}
+
+@media (max-width: 480px) {
+  /* For mobile, maximum shrinkage while preserving layout */
+  :root,
+  [data-theme="dark"] {
+    --scale: 0.75 * 0.7; /* 70% of base scale */
+  }
+  body {
+    font-size: calc(var(--scale) * 1em) !important;
+    width: auto !important; /* Ensure fluidity */
+  }
+  .appContainer {
+    grid-template-columns: auto 1fr; /* Allow sidebar to shrink naturally */
+  }
 }

@@ -29,6 +29,8 @@
   --gradient-start: #1434cb;
   --gradient-mid: #0074cc;
   --gradient-end: #00c6ff;
+
+  --scale: 0.75;
 }
 
 [data-theme="dark"] {
@@ -62,49 +64,51 @@
   --gradient-start: #bdeaff;
   --gradient-mid: #dbf4ff;
   --gradient-end: #80d7ff;
+
+  --scale: 0.75;
 }
 
 .bot-code-reveal {
-  margin-top: 20px;
+  margin-top: calc(20px * var(--scale));
 }
 
 .bot-heading {
-  font-size: 1.8rem;
-  margin-bottom: 8px;
+  font-size: calc(1.8rem * var(--scale));
+  margin-bottom: calc(8px * var(--scale));
   font-weight: 300;
   color: var(--text-primary);
   text-align: left;
-  margin-left: 12px;
+  margin-left: calc(12px * var(--scale));
 }
 
 .bot-section {
-  max-height: 1000px;
-  overflow: hidden;
+  max-height: none; /* Removed cap to prevent cutoff; use 'calc(2000px * var(--scale))' if you want a taller limit */
+  overflow: auto; /* Changed to auto for scrollbars on overflow, preserving visibility */
   transition: max-height 0.4s ease-in-out;
 }
 
 .bot-code-suggestions {
-  margin-bottom: 12px;
-  padding-left: 20px;
-  font-size: 1.5rem;
+  margin-bottom: calc(12px * var(--scale));
+  padding-left: calc(20px * var(--scale));
+  font-size: calc(1.5rem * var(--scale));
   font-weight: 500;
   line-height: 1.6;
   color: var(--text-secondary);
 }
 
 .preview-box {
-  padding: 24px;
-  border: 1px solid var(--border-primary);
-  border-radius: 8px;
+  padding: calc(24px * var(--scale));
+  border: calc(1px * var(--scale)) solid var(--border-primary);
+  border-radius: calc(8px * var(--scale));
   background-color: var(--bg-preview);
-  margin-bottom: 16px;
-  font-size: 1.3rem;
-  min-height: 100px;
+  margin-bottom: calc(16px * var(--scale));
+  font-size: calc(1.3rem * var(--scale));
+  min-height: calc(100px * var(--scale));
   line-height: 1.6;
 }
 
 .preview-content {
-  font-size: 3rem;
+  font-size: calc(3rem * var(--scale));
   line-height: 1.6;
   color: var(--text-primary);
 }
@@ -112,81 +116,81 @@
 .code-snippet {
   white-space: pre-wrap;
   background-color: var(--bg-secondary);
-  padding: 12px;
-  border-radius: 6px;
-  border: 1px solid var(--border-secondary);
-  font-size: 1.5rem;
+  padding: calc(12px * var(--scale));
+  border-radius: calc(6px * var(--scale));
+  border: calc(1px * var(--scale)) solid var(--border-secondary);
+  font-size: calc(1.5rem * var(--scale));
   font-family: Menlo, Consolas, monospace;
-  margin-bottom: 8px;
+  margin-bottom: calc(8px * var(--scale));
   color: var(--text-primary);
 }
 
 .toggle-open-btn {
-  margin: 0 auto 20px auto;
-  margin-top: 30px;
-  margin-left: 240px;
+  margin: 0 auto calc(20px * var(--scale)) auto;
+  margin-top: calc(30px * var(--scale));
+  margin-left: calc(240px * var(--scale));
   display: block;
   background-color: var(--text-accent);
   color: var(--bg-primary);
-  min-width: 100px;
-  font-size: 1.2rem;
+  min-width: calc(100px * var(--scale));
+  font-size: calc(1.2rem * var(--scale));
   font-weight: 100;
-  padding: 10px 20px;
-  border-radius: 15px;
+  padding: calc(10px * var(--scale)) calc(20px * var(--scale));
+  border-radius: calc(15px * var(--scale));
 }
 
 .toggle-components-btn {
-  margin-bottom: 8px;
+  margin-bottom: calc(8px * var(--scale));
   background-color: var(--bg-toggle-components);
   color: var(--text-primary);
-  border: 1px solid var(--border-secondary);
+  border: calc(1px * var(--scale)) solid var(--border-secondary);
   font-size: large;
 }
 
 .toggle-code-btn {
-  margin-bottom: 8px;
+  margin-bottom: calc(8px * var(--scale));
   background-color: var(--bg-toggle-code);
-  border: 1px solid var(--border-toggle-code);
+  border: calc(1px * var(--scale)) solid var(--border-toggle-code);
   color: var(--text-warning);
   font-size: large;
 }
 
 .toggle-preview-btn {
-  margin-bottom: 8px;
+  margin-bottom: calc(8px * var(--scale));
   background-color: var(--bg-toggle-preview);
-  border: 1px solid var(--border-toggle-preview);
+  border: calc(1px * var(--scale)) solid var(--border-toggle-preview);
   color: var(--text-dark);
   font-size: large;
 }
 
 .copy-btn {
-  margin-top: 8px;
+  margin-top: calc(8px * var(--scale));
   background-color: var(--text-primary);
   color: var(--bg-primary);
   font-weight: bold;
-  padding: 10px 16px;
+  padding: calc(10px * var(--scale)) calc(16px * var(--scale));
 }
 
 .code-box-with-copy {
   position: relative;
   display: flex;
   align-items: flex-start;
-  gap: 10px;
-  margin-bottom: 12px;
+  gap: calc(10px * var(--scale));
+  margin-bottom: calc(12px * var(--scale));
 }
 
 .icon-copy-btn {
   display: flex;
   align-items: center;
-  gap: 6px;
-  font-size: 1.3rem;
+  gap: calc(6px * var(--scale));
+  font-size: calc(1.3rem * var(--scale));
   font-weight: 200;
-  padding: 8px 12px;
+  padding: calc(8px * var(--scale)) calc(12px * var(--scale));
   background-color: var(--bg-copy);
   color: var(--bg-primary);
-  border-radius: 8px;
+  border-radius: calc(8px * var(--scale));
   transition: background-color 0.2s ease-in-out;
-  margin-top: 35px;
+  margin-top: calc(35px * var(--scale));
 }
 
 .icon-copy-btn:hover {
@@ -196,4 +200,48 @@
 .code-snippet {
   flex: 1;
   margin: 0;
+}
+
+/* Add media queries to ensure responsive scaling across devices */
+/* These adjust the scale factor based on screen width, keeping layout intact but shrinking proportionally */
+
+@media (max-width: 1200px) {
+  /* For medium screens, apply a slight reduction beyond base scale */
+  :root,
+  [data-theme="dark"] {
+    --scale: 0.75 * 0.9; /* 90% of base scale */
+  }
+  body {
+    font-size: calc(var(--scale) * 1em) !important; /* Override font sizes */
+  }
+  /* Adjust specific elements if needed, but layout remains the same */
+}
+
+@media (max-width: 800px) {
+  /* For small screens, further reduce */
+  :root,
+  [data-theme="dark"] {
+    --scale: 0.75 * 0.8; /* 80% of base scale */
+  }
+  body {
+    font-size: calc(var(--scale) * 1em) !important;
+    padding: calc(var(--scale) * 0.5em) !important; /* Scale paddings */
+    margin: calc(var(--scale) * 0.5em) !important; /* Scale margins */
+  }
+  /* Truncate text more aggressively if needed, but use existing function */
+}
+
+@media (max-width: 480px) {
+  /* For mobile, maximum shrinkage while preserving layout */
+  :root,
+  [data-theme="dark"] {
+    --scale: 0.75 * 0.7; /* 70% of base scale */
+  }
+  body {
+    font-size: calc(var(--scale) * 1em) !important;
+    width: auto !important; /* Ensure fluidity */
+  }
+  .bot-code-reveal {
+    margin-top: calc(10px * var(--scale)); /* Slight adjustment for mobile */
+  }
 }

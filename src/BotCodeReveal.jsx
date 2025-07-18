@@ -14,13 +14,16 @@ export default function BotCodeReveal({
   reasoning,
   codeTitle,
 }) {
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(true);
   const [showComponents, setShowComponents] = useState(true);
   const [showCode, setShowCode] = useState(true);
   const [showPreview, setShowPreview] = useState(true);
   const sectionRef = useRef(null);
   const sectionContentRef = useRef(null);
   const [height, setHeight] = useState(0);
+
+  // Scale factor: reduce all size-related values to 75% of original
+  const scale = 0.75;
 
   useEffect(() => {
     if (open && sectionContentRef.current) {
@@ -92,7 +95,7 @@ export default function BotCodeReveal({
                 aria-label="Copy code to clipboard"
                 className="icon-copy-btn"
               >
-                <VisaDocumentHigh size={32} />
+                <VisaDocumentHigh size={32 * scale} />
                 {copied ? " Copied!" : " Copy"}
               </Button>
             </div>
@@ -110,7 +113,10 @@ export default function BotCodeReveal({
             <>
               <Typography
                 variant="subtitle-2"
-                style={{ marginTop: "10px", fontSize: "1.5rem" }}
+                style={{
+                  marginTop: `${10 * scale}px`,
+                  fontSize: `${1.5 * scale}rem`,
+                }}
               >
                 Live Preview:
               </Typography>
@@ -120,7 +126,9 @@ export default function BotCodeReveal({
                     <LivePreview />
                   </div>
                 </div>
-                <LiveError style={{ color: "red", fontSize: "0.9rem" }} />
+                <LiveError
+                  style={{ color: "red", fontSize: `${0.9 * scale}rem` }}
+                />
               </LiveProvider>
             </>
           )}
@@ -128,19 +136,25 @@ export default function BotCodeReveal({
           {reasoning && (
             <div
               style={{
-                marginTop: "25px",
-                padding: "16px",
+                marginTop: `${25 * scale}px`,
+                padding: `${16 * scale}px`,
                 backgroundColor: "var(--background-secondary)",
-                borderRadius: "12px",
-                fontSize: "2rem",
+                borderRadius: `${12 * scale}px`,
+                fontSize: `${2 * scale}rem`,
                 lineHeight: "1.6",
                 color: "var(--text-primary)",
               }}
             >
-              <Typography variant="headline-3" style={{ marginBottom: "8px" }}>
+              <Typography
+                variant="headline-3"
+                style={{ marginBottom: `${8 * scale}px` }}
+              >
                 Why these components?
               </Typography>
-              <Typography variant="body-1" style={{ fontSize: "1.3rem" }}>
+              <Typography
+                variant="body-1"
+                style={{ fontSize: `${1.3 * scale}rem` }}
+              >
                 {reasoning}
               </Typography>
             </div>

@@ -17,6 +17,7 @@ import {
 } from "@visa/nova-icons-react";
 
 import { useEffect, useState } from "react";
+import "./Sidebar.css";
 
 function useWindowWidth() {
   const [width, setWidth] = useState(window.innerWidth);
@@ -45,6 +46,9 @@ export default function Sidebar({
 }) {
   const width = useWindowWidth();
 
+  // Scale factor: reduce all size-related values to 67% of original
+  const scale = 0.67;
+
   return (
     <Nav
       id="generator-sidebar"
@@ -52,25 +56,27 @@ export default function Sidebar({
       orientation="vertical"
       tag="header"
       style={{
-        width: navExpanded ? "400px" : "80px",
+        width: navExpanded ? `${400 * scale}px` : `${80 * scale}px`,
         transition: "width 0.3s ease",
-        height: "149.2vh",
+        height: "100%", // Height remains 100% as it's relative
+        minHeight: "0",
+        overflowY: "auto",
       }}
     >
       <UtilityFragment
         vFlex
         vFlexCol
-        vGap={12}
-        vMarginTop={16}
-        vMarginRight={navExpanded ? 16 : 4}
-        vMarginBottom={30}
-        vMarginLeft={navExpanded ? 20 : 4}
+        vGap={12 * scale}
+        vMarginTop={16 * scale}
+        vMarginRight={navExpanded ? 16 * scale : 4 * scale}
+        vMarginBottom={30 * scale}
+        vMarginLeft={navExpanded ? 20 * scale : 4 * scale}
       >
         <Link noUnderline href="#">
           {/* <VisaLogo /> */}
           <UtilityFragment
-            vMarginLeft={navExpanded ? "auto" : 5}
-            vMarginRight={navExpanded ? 8 : 5}
+            vMarginLeft={navExpanded ? "auto" : 5 * scale}
+            vMarginRight={navExpanded ? 8 * scale : 5 * scale}
           >
             <div className="sticky-toggle">
               <Button
@@ -89,9 +95,9 @@ export default function Sidebar({
                 }}
               >
                 {navExpanded ? (
-                  <VisaMediaRewindTiny rtl size={24} />
+                  <VisaMediaRewindTiny rtl size={24 * scale} />
                 ) : (
-                  <VisaMediaFastForwardTiny rtl size={24} />
+                  <VisaMediaFastForwardTiny rtl size={24 * scale} />
                 )}
               </Button>
             </div>
@@ -101,15 +107,15 @@ export default function Sidebar({
 
       {navExpanded && (
         <>
-          <UtilityFragment vGap={8}>
+          <UtilityFragment vGap={8 * scale}>
             <Typography
               variant="subtitle-1"
               className="nav-heading"
               style={{
-                paddingLeft: "120px",
-                marginTop: "-73px",
+                paddingLeft: `${120 * scale}px`,
+                marginTop: `-${48 * scale}px`,
                 fontWeight: "50",
-                fontSize: "30px",
+                fontSize: `${30 * scale}px`,
               }}
             >
               History
@@ -118,7 +124,10 @@ export default function Sidebar({
 
           <Tabs
             orientation="vertical"
-            style={{ marginBottom: "40px", marginTop: "40px" }}
+            style={{
+              marginBottom: `${40 * scale}px`,
+              marginTop: `${40 * scale}px`,
+            }}
           >
             {messages
               .filter((m) => m.type === "user")
@@ -131,8 +140,8 @@ export default function Sidebar({
                     className="history-tab"
                   >
                     <VisaFavoriteStarOutlineLow
-                      size={50}
-                      style={{ marginRight: "8px" }}
+                      size={50 * scale}
+                      style={{ marginRight: `${8 * scale}px` }}
                     />
                     <div
                       className="tab-label"
@@ -142,7 +151,7 @@ export default function Sidebar({
                         overflow: "hidden",
                         textOverflow: "ellipsis",
                         display: "inline-block",
-                        maxWidth: "280px",
+                        maxWidth: `${280 * scale}px`,
                         lineHeight: "1.4",
                         verticalAlign: "middle",
                         transition: "color 0.2s ease",
@@ -165,7 +174,7 @@ export default function Sidebar({
           <div
             style={{
               position: "absolute",
-              bottom: "20px",
+              bottom: `${20 * scale}px`,
               width: "100%",
               textAlign: "center",
             }}
@@ -174,22 +183,22 @@ export default function Sidebar({
               variant="tertiary"
               onClick={clearHistory}
               style={{
-                fontSize: "1.5rem",
+                fontSize: `${1.5 * scale}rem`,
                 fontWeight: "200",
-                padding: "10px 16px",
+                padding: `${10 * scale}px ${16 * scale}px`,
                 width: "80%",
-                maxWidth: "240px",
+                maxWidth: `${240 * scale}px`,
                 margin: "0 auto",
                 backgroundColor: "transparent",
                 color: "#ffffff",
-                border: "1px solid #ffffff",
+                border: `1px solid #ffffff`,
                 boxShadow: "none",
-                borderRadius: "8px",
+                borderRadius: `${8 * scale}px`,
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
                 textAlign: "center",
-                marginLeft: "60px",
+                marginLeft: `${60 * scale}px`,
               }}
             >
               Clear History
@@ -200,7 +209,7 @@ export default function Sidebar({
             vFlex
             vFlexCol
             vAlignSelf="stretch"
-            vGap={4}
+            vGap={4 * scale}
             vMarginTop="auto"
           >
             <Divider dividerType="decorative" />

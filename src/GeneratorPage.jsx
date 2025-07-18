@@ -5,6 +5,8 @@ import { Toaster, toast } from "react-hot-toast";
 import "./galaxy.css"; // base styles
 import "./GeneratorPage.css"; // overrides (dark mode vars)
 import { VisaModeDarkHigh, VisaModeLightHigh } from "@visa/nova-icons-react";
+import { Link } from "react-router-dom";
+import { VisaHomeLow } from "@visa/nova-icons-react";
 
 const getComponentInfo = async (query) => {
   const BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:8000"; // fallback
@@ -40,6 +42,10 @@ export default function GeneratorPage() {
   const textareaRef = useRef(null);
   const [copiedIndex, setCopiedIndex] = useState(null);
   const [isDarkMode, setIsDarkMode] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+
+  // Scale factor: reduce all size-related values to 75% of original
+  const scale = 0.75;
 
   useEffect(() => {
     // Respect system preference on initial load (for accessibility/WCAG)
@@ -111,25 +117,27 @@ export default function GeneratorPage() {
   const handleGenerate = async () => {
     if (!query.trim()) return;
 
+    setIsLoading(true); // ✅ Show loading spinner/message
+
     const userMessage = { type: "user", text: query };
     const newId = `hist-${history.length}`;
     const label = query.slice(0, 20) + (query.length > 20 ? "..." : "");
 
-    // Step 1: Fetch component suggestion
-    const { components, code, reasoning } = await getComponentInfo(query);
-
-    const systemMessage = {
-      type: "bot",
-      text: null,
-      suggestions: components,
-      code: code,
-      reasoning: reasoning, // ← add this line
-    };
-
-    setMessages((prev) => [...prev, userMessage, systemMessage]);
-
-    // Step 2: Save to backend
     try {
+      // Step 1: Fetch component suggestion
+      const { components, code, reasoning } = await getComponentInfo(query);
+
+      const systemMessage = {
+        type: "bot",
+        text: null,
+        suggestions: components,
+        code: code,
+        reasoning: reasoning,
+      };
+
+      setMessages((prev) => [...prev, userMessage, systemMessage]);
+
+      // Step 2: Save to backend
       const saveResponse = await fetch("http://localhost:8000/queries", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -138,15 +146,17 @@ export default function GeneratorPage() {
 
       const { shared_id } = await saveResponse.json();
       toast.success(`✅ Query saved! Share link: /queries/${shared_id}`);
+
+      // Step 3: Store in local state/history
+      const newItem = { id: newId, label, query, components, code };
+      setHistory((prev) => [...prev, newItem]);
+      setQuery("");
     } catch (error) {
       console.error("Save failed:", error);
       toast.error("⚠️ Failed to save query");
+    } finally {
+      setIsLoading(false); // ✅ Hide spinner/message
     }
-
-    // Step 3: Store in local state/history
-    const newItem = { id: newId, label, query, components, code };
-    setHistory((prev) => [...prev, newItem]);
-    setQuery("");
   };
 
   useEffect(() => {
@@ -206,42 +216,52 @@ export default function GeneratorPage() {
         <div className="shooting-star"></div>
       </div>
 
-      <div className="page-container">
+      <div className="page-container compact-mode">
         <Toaster /> {/* Required for toast notifications */}
-        <div
+        <Link
+          to="/"
           style={{
             position: "absolute",
-            left: navExpanded ? "430px" : "100px", // adjusts based on sidebar
+            left: navExpanded ? `${380 * scale}px` : `${100 * scale}px`,
             zIndex: 10,
-            fontSize: "30px",
+            fontSize: `${30 * scale}px`,
             fontWeight: "500",
             fontFamily: "Visa Sans Text, sans-serif",
             transition: "left 0.3s ease",
-            top: "50px",
+            top: `${40 * scale}px`,
+            display: "flex",
+            alignItems: "center",
+            gap: "12px",
+            textDecoration: "none",
             background:
               "linear-gradient(90deg, var(--gradient-start), var(--gradient-mid), var(--gradient-end))",
             WebkitBackgroundClip: "text",
             WebkitTextFillColor: "transparent",
           }}
+          aria-label="Go to home page"
         >
-          NovaUI
-        </div>
+          <VisaHomeLow
+            size={32}
+            style={{ position: "relative", top: "-3px" }}
+          />
+          <span>NovaUI</span>
+        </Link>
         <div
           style={{
             position: "absolute",
-            right: "50px",
+            right: `${50 * scale}px`,
             zIndex: 10,
             cursor: "pointer",
-            padding: "8px",
-            top: "20px",
+            padding: `${8 * scale}px`,
+            top: `${20 * scale}px`,
           }}
           onClick={toggleTheme}
         >
           {isDarkMode ? (
             <VisaModeLightHigh
               style={{
-                width: "55px",
-                height: "55px",
+                width: `${55 * scale}px`,
+                height: `${55 * scale}px`,
                 color: "var(--palette-default-text)",
               }}
               aria-label="Switch to light mode"
@@ -249,15 +269,22 @@ export default function GeneratorPage() {
           ) : (
             <VisaModeDarkHigh
               style={{
-                width: "55px",
-                height: "55px",
+                width: `${55 * scale}px`,
+                height: `${55 * scale}px`,
                 color: "var(--palette-default-text)",
               }}
               aria-label="Switch to dark mode"
             />
           )}
         </div>
-        <div className={`appContainer ${navExpanded ? "" : "collapsed"}`}>
+        <div
+          className={`appContainer ${navExpanded ? "" : "collapsed"}`}
+          style={{
+            "--sidebar-width": navExpanded
+              ? `${400 * scale}px`
+              : `${80 * scale}px`,
+          }}
+        >
           <Sidebar
             navExpanded={navExpanded}
             setNavExpanded={setNavExpanded}
@@ -277,6 +304,7 @@ export default function GeneratorPage() {
             handleGenerate={handleGenerate}
             textareaRef={textareaRef}
             messagesEndRef={messagesEndRef}
+            isLoading={isLoading}
           />
         </div>
       </div>

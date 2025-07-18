@@ -1,19 +1,15 @@
-import { useState } from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import LandingPage from "./LandingPage";
 import GeneratorPage from "./GeneratorPage";
 
 function App() {
-  const [started, setStarted] = useState(false);
-  console.log("Started:", started);
-
   return (
-    <>
-      {started ? (
-        <GeneratorPage />
-      ) : (
-        <LandingPage onStart={() => setStarted(true)} />
-      )}
-    </>
+    <Router>
+      <Routes>
+        <Route path="/" element={<LandingPage />} />
+        <Route path="/generate" element={<GeneratorPage />} />
+      </Routes>
+    </Router>
   );
 }
 

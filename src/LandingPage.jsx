@@ -8,9 +8,14 @@ import {
 import VisaLogo from "./assets/VisaLogo.png";
 import "./LandingPage.css";
 import "./galaxy.css";
+import { useNavigate } from "react-router-dom";
 
-export default function LandingPage({ onStart }) {
+export default function LandingPage() {
   const [isDarkMode, setIsDarkMode] = useState(false);
+  const navigate = useNavigate();
+
+  // Scale factor: reduce all size-related values to 67% of original
+  const scale = 0.67;
 
   useEffect(() => {
     const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
@@ -61,15 +66,15 @@ export default function LandingPage({ onStart }) {
             style={{
               marginLeft: "auto",
               cursor: "pointer",
-              padding: "0.5rem",
+              padding: `${0.5 * scale}rem`,
             }}
             onClick={toggleTheme}
           >
             {isDarkMode ? (
               <VisaModeLightHigh
                 style={{
-                  width: "2.5rem",
-                  height: "2.5rem",
+                  width: `${5 * scale}rem`,
+                  height: `${5 * scale}rem`,
                   color: "var(--palette-default-text)",
                 }}
                 aria-label="Switch to light mode"
@@ -77,8 +82,8 @@ export default function LandingPage({ onStart }) {
             ) : (
               <VisaModeDarkHigh
                 style={{
-                  width: "2.5rem",
-                  height: "2.5rem",
+                  width: `${5 * scale}rem`,
+                  height: `${5 * scale}rem`,
                   color: "var(--palette-default-text)",
                 }}
                 aria-label="Switch to dark mode"
@@ -92,12 +97,13 @@ export default function LandingPage({ onStart }) {
         </div>
 
         <div className="hero">
-          <div style={{ maxWidth: "800px", margin: "0 auto" }}>
+          <div style={{ maxWidth: `${1000 * scale}px`, margin: "0 auto" }}>
             <Typography
               variant="display-1"
               style={{
                 color: "var(--text-accent)",
-                marginTop: "-1rem",
+                marginTop: `-${1 * scale}rem`,
+                fontSize: `${8 * scale}rem`,
               }}
             >
               Welcome to <span className="gradient-text">NovaUI</span>
@@ -105,7 +111,11 @@ export default function LandingPage({ onStart }) {
 
             <Typography
               variant="headline-2"
-              style={{ color: "var(--text-primary)", marginTop: "1.5rem" }}
+              style={{
+                color: "var(--text-primary)",
+                marginTop: `${1.5 * scale}rem`,
+                fontSize: `${3 * scale}rem`,
+              }}
             >
               Make your wish. Turn your prompts into UI components.
             </Typography>
@@ -115,9 +125,9 @@ export default function LandingPage({ onStart }) {
         <div className="cta-section">
           <div
             style={{
-              maxWidth: "800px",
+              maxWidth: `${800 * scale}px`,
               margin: "0 auto",
-              padding: "0 1.5rem",
+              padding: `0 ${1.5 * scale}rem`,
               display: "flex",
               flexDirection: "column",
               alignItems: "flex-start",
@@ -127,15 +137,15 @@ export default function LandingPage({ onStart }) {
               style={{
                 display: "flex",
                 alignItems: "center",
-                gap: "1rem",
-                marginBottom: "2rem",
+                gap: `${1 * scale}rem`,
+                marginBottom: `${6 * scale}rem`,
               }}
             >
               <VisaDeviceMonitorHigh
                 aria-label="Visa Device Monitor High"
                 style={{
-                  width: "5rem",
-                  height: "5rem",
+                  width: `${7 * scale}rem`,
+                  height: `${7 * scale}rem`,
                   color: "var(--text-accent)",
                 }}
               />
@@ -143,7 +153,8 @@ export default function LandingPage({ onStart }) {
                 variant="headline-2"
                 style={{
                   color: "var(--text-primary)",
-                  fontSize: "2.2rem",
+                  fontSize: `${2.7 * scale}rem`,
+                  marginLeft: "1.4rem",
                 }}
               >
                 Start coding
@@ -154,10 +165,11 @@ export default function LandingPage({ onStart }) {
               variant="body-l"
               style={{
                 color: "var(--text-primary)",
-                fontSize: "1.5rem",
+                fontSize: `${2.7 * scale}rem`,
                 textAlign: "left",
                 lineHeight: "1.5",
-                marginBottom: "2.5rem",
+                marginBottom: `${2.5 * scale}rem`,
+                marginTop: "-1rem",
               }}
             >
               Discover the fastest way to go from idea to implementation:
@@ -170,14 +182,15 @@ export default function LandingPage({ onStart }) {
               size="large"
               onClick={() => {
                 console.log("✅ Get Started button clicked");
-                onStart();
+                navigate("/generate");
               }}
               style={{
-                padding: "1rem 2rem",
-                fontSize: "1.25rem",
+                padding: `${1 * scale}rem ${2 * scale}rem`,
+                fontSize: `${2 * scale}rem`,
                 width: "100%",
-                maxWidth: "250px",
-                height: "3.75rem",
+                maxWidth: `${200 * scale}px`,
+                height: `${5 * scale}rem`,
+                marginLeft: "17rem",
               }}
             >
               Get Started

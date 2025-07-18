@@ -21,50 +21,56 @@ export default function ChatBot({
   handleGenerate,
   textareaRef,
   messagesEndRef,
+  isLoading,
 }) {
+  // Scale factor: reduce all size-related values to 75% of original
+  const scale = 0.75;
+
   return (
     <div className="mainContent">
       <div className={`centered-message ${!showGreeting ? "fade-out" : ""}`}>
-        <Typography
-          variant="display-2"
-          style={{ marginBottom: "-1000px", marginTop: "270px" }}
-        >
+        <Typography variant="display-2">
           <span className="gradient-text">Hello!</span> What would you like to
           build today?
         </Typography>
       </div>
 
       <div className="message-area">
-        <Utility
-          vFlex
-          vFlexCol
-          vGap={12}
-          style={{
-            width: "100%",
-            maxWidth: "900px",
-            alignItems: "center",
-          }}
-        >
-          {messages.map((msg, idx) => (
-            <div
-              key={idx}
-              className={`chat-bubble ${msg.type === "user" ? "user" : "bot"}`}
-              style={{
-                alignSelf: msg.type === "user" ? "flex-end" : "flex-start",
-              }}
-            >
-              <Typography
-                variant="body-1"
+        <div className="chat-scroll-wrapper">
+          <Utility
+            vFlex
+            vFlexCol
+            vGap={12 * scale}
+            style={{
+              width: "100%",
+              maxWidth: `${700 * scale}px`,
+              margin: "0 auto",
+            }}
+          >
+            {messages.map((msg, idx) => (
+              <div
+                key={idx}
+                className={`chat-bubble ${
+                  msg.type === "user" ? "user" : "bot"
+                }`}
                 style={{
-                  marginBottom: msg.suggestions ? "8px" : "0",
-                  fontSize: msg.type === "user" ? "1.5rem" : "1rem",
+                  alignSelf: msg.type === "user" ? "flex-end" : "flex-start",
                 }}
               >
-                {msg.text}
-              </Typography>
+                <Typography
+                  variant="body-1"
+                  style={{
+                    marginBottom: msg.suggestions ? `${8 * scale}px` : "0",
+                    fontSize:
+                      msg.type === "user"
+                        ? `${1.5 * scale}rem`
+                        : `${1 * scale}rem`,
+                  }}
+                >
+                  {msg.text}
+                </Typography>
 
-              {msg.code && msg.type === "bot" && (
-                <>
+                {msg.code && msg.type === "bot" && (
                   <BotCodeReveal
                     code={msg.code}
                     suggestions={msg.suggestions}
@@ -72,13 +78,37 @@ export default function ChatBot({
                     copied={copiedIndex === idx}
                     onCopy={() => copyToClipboard(msg.code, idx)}
                     codeTitle={messages[idx - 1]?.text || "your request"}
+                    defaultOpen={true}
                   />
-                </>
-              )}
-            </div>
-          ))}
-          <div ref={messagesEndRef} />
-        </Utility>
+                )}
+              </div>
+            ))}
+
+            {isLoading && (
+              <div
+                className="chat-bubble bot"
+                style={{
+                  backgroundColor: "var(--surface-alt)",
+                  fontStyle: "italic",
+                  opacity: 0.7,
+                  padding: "1.2rem 1.5rem",
+                  borderRadius: "12px",
+                  textAlign: "left",
+                  maxWidth: "700px",
+                  alignSelf: "flex-start",
+                  fontSize: "1.7rem",
+                  lineHeight: "1.5",
+                  color: "var(--text-secondary)",
+                  boxShadow: "0 2px 8px rgba(0, 0, 0, 0.08)",
+                }}
+              >
+                <span>NovaUI is generating your component...</span>
+              </div>
+            )}
+
+            <div ref={messagesEndRef} />
+          </Utility>
+        </div>
       </div>
 
       <div className="input-area">
@@ -87,7 +117,7 @@ export default function ChatBot({
             <Typography
               variant="headline-1"
               style={{
-                marginBottom: "8px",
+                marginBottom: `${8 * scale}px`,
                 textAlign: "left",
                 position: "relative",
               }}
@@ -99,13 +129,13 @@ export default function ChatBot({
               variant="body"
               style={{
                 position: "absolute",
-                top: "80px",
+                top: `${80 * scale}px`,
                 left: "0",
-                fontSize: "20px",
+                fontSize: `${20 * scale}px`,
                 color: "var(--text-primary)",
-                maxWidth: "1000px",
-                marginRight: "20px",
-                marginLeft: "25px",
+                maxWidth: `${1000 * scale}px`,
+                marginRight: `${20 * scale}px`,
+                marginLeft: `${25 * scale}px`,
                 lineHeight: "1.4",
                 pointerEvents: "none",
               }}
@@ -121,8 +151,8 @@ export default function ChatBot({
               onClick={() => setShowWelcome(false)}
               style={{
                 position: "absolute",
-                top: "8px",
-                right: "15px",
+                top: `${8 * scale}px`,
+                right: `${15 * scale}px`,
                 cursor: "pointer",
                 background: "transparent",
                 border: "none",
@@ -130,7 +160,7 @@ export default function ChatBot({
               }}
               aria-label="Close welcome message"
             >
-              <VisaCloseLow size={24} color="#0040dd" />
+              <VisaCloseLow size={24 * scale} color="#0040dd" />
             </Button>
           </div>
         )}
@@ -138,14 +168,18 @@ export default function ChatBot({
         <Utility
           vFlex
           vFlexCol
-          vGap={4}
-          style={{ width: "100%", maxWidth: "900px", position: "relative" }}
+          vGap={4 * scale}
+          style={{
+            width: "100%",
+            maxWidth: `${900 * scale}px`,
+            position: "relative",
+          }}
         >
           <InputContainer
             style={{
-              minHeight: "150px",
-              minWidth: "1165px",
-              borderRadius: "16px",
+              minHeight: `${150 * scale}px`,
+              minWidth: `${1108 * scale}px`,
+              borderRadius: `${16 * scale}px`,
               backgroundColor: "var(--background)",
               border: "1px solid var(--preview-border)",
             }}
@@ -178,7 +212,7 @@ export default function ChatBot({
                 if (e.key === "Enter" || e.key === " ") handleGenerate();
               }}
             >
-              <VisaSendHigh size={24} />
+              <VisaSendHigh size={24 * scale} />
             </div>
           )}
         </Utility>
