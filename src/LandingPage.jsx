@@ -102,7 +102,7 @@ export default function LandingPage() {
               variant="display-1"
               style={{
                 color: "var(--text-accent)",
-                marginTop: `-${1 * scale}rem`,
+                marginTop: `0`,
                 fontSize: `${8 * scale}rem`,
               }}
             >
@@ -169,7 +169,7 @@ export default function LandingPage() {
                 textAlign: "left",
                 lineHeight: "1.5",
                 marginBottom: `${2.5 * scale}rem`,
-                marginTop: "-1rem",
+                marginTop: "0",
               }}
             >
               Discover the fastest way to go from idea to implementation:
@@ -190,7 +190,8 @@ export default function LandingPage() {
                 width: "100%",
                 maxWidth: `${200 * scale}px`,
                 height: `${5 * scale}rem`,
-                marginLeft: "17rem",
+                margin: "0 auto", // centers the button horizontally
+                display: "block", // ensures it's treated like a block-level element
               }}
             >
               Get Started

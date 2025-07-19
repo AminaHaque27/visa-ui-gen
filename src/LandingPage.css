@@ -50,6 +50,8 @@
 html {
   box-sizing: border-box;
   font-size: calc(16px * var(--scale));
+  overflow-y: auto;
+  scroll-behavior: smooth;
 }
 
 *,
@@ -64,6 +66,8 @@ body {
   color: var(--palette-default-text);
   font-family: system-ui, sans-serif;
   transition: background-color 0.3s, color 0.3s;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 .page-container {
@@ -72,7 +76,9 @@ body {
   flex-direction: column;
   background-color: var(--surface-bg);
   padding: 0;
+  overflow-y: auto;
 }
+
 .header {
   width: 100%;
   background-color: var(--header-bg);
@@ -101,56 +107,40 @@ body {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  justify-content: center;
-  padding: calc(2rem * var(--scale)) calc(5vw * var(--scale));
-  min-height: calc(80vh * var(--scale));
-  margin-bottom: calc(10rem * var(--scale));
+  justify-content: flex-start;
+  padding: calc(5rem * var(--scale)) calc(1rem * var(--scale));
+  margin-top: calc(25rem * var(--scale));
+  margin-bottom: calc(5rem * var(--scale));
   background-repeat: repeat;
   background-size: calc(200px * var(--scale)) calc(200px * var(--scale));
   text-align: left;
-  margin-top: calc(10rem * var(--scale));
+  max-width: 100%;
+  box-sizing: border-box;
 }
 
 .cta-section {
   width: 100%;
+  max-width: 100vw;
   background-color: var(--cta-bg);
-  padding: calc(2.5rem * var(--scale)) calc(1rem * var(--scale));
+  padding: calc(2rem * var(--scale)) calc(1rem * var(--scale));
+  margin-top: 0;
   text-align: center;
-  min-height: calc(200px * var(--scale));
-  margin-top: calc(-25rem * var(--scale));
   z-index: 1;
+  overflow-wrap: break-word;
+  min-height: auto;
+  box-sizing: border-box;
 }
 
 .galaxy-background {
   opacity: 0.85;
   transition: opacity 0.3s;
+  height: auto;
+  min-height: 100vh;
+  overflow: visible;
 }
 
 [data-theme="dark"] .galaxy-background {
   opacity: 1;
-}
-
-/* Responsive adjustments */
-@media (max-width: 768px) {
-  .header {
-    flex-direction: column;
-    align-items: flex-start;
-    padding: calc(1rem * var(--scale));
-  }
-
-  .hero {
-    padding: calc(1.5rem * var(--scale));
-    text-align: center;
-    align-items: center;
-  }
-
-  .blue-bar {
-    padding: calc(1rem * var(--scale));
-  }
-
-  .cta-section {
-    padding: calc(2rem * var(--scale)) calc(1rem * var(--scale));
-  }
 }
 
 .gradient-text {
@@ -165,57 +155,129 @@ body {
   font-weight: 700;
 }
 
+/* ✅ 1600px — large laptop screens */
+@media (max-width: 1600px) {
+  .hero {
+    margin-top: calc(4rem * var(--scale));
+  }
+  .cta-section {
+    margin-top: calc(
+      3rem * var(--scale)
+    ); /* Avoid negative for layout stability */
+  }
+}
+
+/* ✅ 1200px — smaller laptops */
+@media (max-width: 1200px) {
+  :root,
+  [data-theme="dark"] {
+    --scale: calc(0.576 * 0.9);
+  }
+  body {
+    font-size: calc(var(--scale) * 1em) !important;
+  }
+}
+
+/* ✅ 1024px — iPad landscape, small monitors */
+@media (max-width: 1024px) {
+  .hero {
+    margin-top: calc(2rem * var(--scale));
+  }
+
+  .cta-section {
+    margin-top: calc(-10rem * var(--scale));
+    padding: 1.5rem 1rem;
+  }
+
+  .page-container,
+  .galaxy-background {
+    width: 100%;
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
+}
+
+/* ✅ 800px — small tablets */
+@media (max-width: 800px) {
+  :root,
+  [data-theme="dark"] {
+    --scale: calc(0.576 * 0.8);
+  }
+  body {
+    font-size: calc(var(--scale) * 1em) !important;
+    padding: calc(var(--scale) * 0.5em) !important;
+    margin: calc(var(--scale) * 0.5em) !important;
+  }
+
+  .cta-section {
+    margin-left: 0;
+    width: 100%;
+  }
+}
+
+/* ✅ 768px — tablets and small laptops */
 @media (max-width: 768px) {
   .hero {
-    padding-top: calc(1rem * var(--scale));
+    padding: 2rem 1rem;
+    margin-top: calc(2rem * var(--scale));
+    margin-bottom: 1rem;
+    align-items: center;
+    justify-content: flex-start;
+    text-align: center;
   }
 
   .cta-section {
-    min-height: calc(250px * var(--scale));
-    padding: calc(1.5rem * var(--scale)) calc(1rem * var(--scale));
+    padding: 2rem 1rem;
+    text-align: center;
   }
-}
 
-/* Add media queries to ensure responsive scaling across devices */
-/* These adjust the scale factor based on screen width, keeping layout intact but shrinking proportionally */
-
-@media (max-width: 1200px) {
-  /* For medium screens, apply a slight reduction beyond base scale */
-  :root,
-  [data-theme="dark"] {
-    --scale: calc(0.576 * 0.9); /* 90% of base scale */
+  .page-container,
+  .galaxy-background {
+    height: auto;
+    min-height: auto;
+    overflow-x: hidden;
+    overflow-y: visible;
   }
+
   body {
-    font-size: calc(var(--scale) * 1em) !important; /* Override font sizes */
+    overflow-x: hidden;
   }
-  /* Adjust specific elements if needed, but layout remains the same */
 }
 
-@media (max-width: 800px) {
-  /* For small screens, further reduce */
-  :root,
-  [data-theme="dark"] {
-    --scale: calc(0.576 * 0.8); /* 80% of base scale */
-  }
-  body {
-    font-size: calc(var(--scale) * 1em) !important;
-    padding: calc(var(--scale) * 0.5em) !important; /* Scale paddings */
-    margin: calc(var(--scale) * 0.5em) !important; /* Scale margins */
-  }
-  /* Truncate text more aggressively if needed, but use existing function */
-}
-
+/* ✅ 480px — mobile */
 @media (max-width: 480px) {
-  /* For mobile, maximum shrinkage while preserving layout */
   :root,
   [data-theme="dark"] {
-    --scale: calc(0.576 * 0.7); /* 70% of base scale */
+    --scale: calc(0.576 * 0.7);
   }
-  body {
-    font-size: calc(var(--scale) * 1em) !important;
-    width: auto !important; /* Ensure fluidity */
+
+  .hero {
+    padding: 1.5rem 1rem;
+    margin-top: calc(1.5rem * var(--scale));
+    margin-bottom: 1rem;
+    align-items: center;
+    text-align: center;
   }
+
   .cta-section {
-    flex-direction: column; /* Stack if too narrow, but keep overall layout */
+    flex-direction: column;
+    padding: 1.5rem 1rem;
+    margin-top: calc(1rem * var(--scale));
+    text-align: center;
+  }
+
+  .cta-section button {
+    margin: 0 auto !important;
+  }
+
+  .page-container,
+  .galaxy-background {
+    width: 100%;
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
+
+  .logo {
+    flex-wrap: wrap;
   }
 }
