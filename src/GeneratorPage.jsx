@@ -381,10 +381,6 @@ export default function GeneratorPage() {
                   elements, like input fields and buttons.
                 </li>
                 <li>
-                  Use the <strong>arrow keys</strong> (← / →) to navigate
-                  between tabs.
-                </li>
-                <li>
                   Press <strong>Enter</strong> or <strong>Space</strong> to
                   activate a selected tab and view its content.
                 </li>
