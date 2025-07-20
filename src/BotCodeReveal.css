@@ -72,8 +72,8 @@
   margin-top: calc(20px * var(--scale));
   overflow: visible;
   width: 100%;
-  max-width: 800px; /* Keep it readable */
-  margin-left: -120px; /* Lean slightly left like a DM */
+  max-width: 800px;
+  margin-left: -120px;
   margin-right: auto;
   background: transparent;
 }
@@ -85,17 +85,17 @@
   color: var(--text-primary);
   text-align: left;
   margin-left: calc(12px * var(--scale));
-  word-break: break-word; /* Ensure long words in headings wrap */
+  word-break: break-word;
   overflow-wrap: break-word;
   hyphens: auto;
 }
 
 .bot-section {
-  max-height: none; /* Removed cap to prevent cutoff; use 'calc(2000px * var(--scale))' if you want a taller limit */
-  overflow: auto; /* Changed to auto for scrollbars on overflow, preserving visibility */
+  max-height: none;
+  overflow: auto;
   transition: max-height 0.4s ease-in-out;
-  max-width: 100%; /* Prevent horizontal overflow by constraining width */
-  box-sizing: border-box; /* Include padding/borders in width calculation */
+  max-width: 100%;
+  box-sizing: border-box;
 }
 
 .bot-code-suggestions {
@@ -105,10 +105,10 @@
   font-weight: 500;
   line-height: 1.6;
   color: var(--text-secondary);
-  word-break: break-word; /* Ensure suggestions text wraps properly */
+  word-break: break-word;
   overflow-wrap: break-word;
   hyphens: auto;
-  white-space: pre-wrap; /* Preserve whitespace but allow wrapping */
+  white-space: pre-wrap;
 }
 
 .preview-box {
@@ -120,9 +120,9 @@
   font-size: calc(1.3rem * var(--scale));
   min-height: auto;
   line-height: 1.6;
-  max-width: 100%; /* Prevent preview from exceeding container width */
-  overflow: visible; /* Changed to hidden if you want to clip, but consider auto for scroll */
-  word-break: break-word; /* Add wrapping for long content in preview */
+  max-width: 100%;
+  overflow: visible;
+  word-break: break-word;
   overflow-wrap: break-word;
   hyphens: auto;
 }
@@ -131,7 +131,7 @@
   font-size: calc(3rem * var(--scale));
   line-height: 1.6;
   color: var(--text-primary);
-  word-break: break-word; /* Ensure content wraps */
+  word-break: break-word;
   overflow-wrap: break-word;
   hyphens: auto;
   white-space: pre-wrap;
@@ -147,10 +147,10 @@
   font-family: Menlo, Consolas, monospace;
   margin-bottom: calc(8px * var(--scale));
   color: var(--text-primary);
-  word-break: break-all; /* Stronger break for code lines to prevent horizontal scroll */
-  overflow-wrap: anywhere; /* Allow breaking anywhere in long code strings */
-  max-width: 100%; /* Constrain code snippet width */
-  overflow-x: auto; /* Add horizontal scroll only if absolutely needed after wrapping */
+  word-break: break-all;
+  overflow-wrap: anywhere;
+  max-width: 100%;
+  overflow-x: auto;
 }
 
 .toggle-open-btn {
@@ -205,7 +205,7 @@
   align-items: flex-start;
   gap: calc(10px * var(--scale));
   margin-bottom: calc(12px * var(--scale));
-  max-width: 100%; /* Ensure copy box doesn't exceed parent */
+  max-width: 100%;
 }
 
 .icon-copy-btn {
@@ -241,9 +241,7 @@
 }
 
 .code-box-wrapper {
-  background-color: var(
-    --bg-primary
-  ); /* white/light or dark depending on theme */
+  background-color: var(--bg-primary);
   border: 1px solid var(--border-secondary);
   border-radius: 12px;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
@@ -275,64 +273,56 @@
   margin-top: 8px;
 }
 
-/* Add media queries to ensure responsive scaling across devices */
-/* These adjust the scale factor based on screen width, keeping layout intact but shrinking proportionally */
-
 @media (max-width: 1200px) {
-  /* For medium screens, apply a slight reduction beyond base scale */
   :root,
   [data-theme="dark"] {
-    --scale: 0.75 * 0.9; /* 90% of base scale */
-  }
-  body {
-    font-size: calc(var(--scale) * 1em) !important; /* Override font sizes */
-  }
-  /* Adjust specific elements if needed, but layout remains the same */
-}
-
-@media (max-width: 800px) {
-  /* For small screens, further reduce */
-  :root,
-  [data-theme="dark"] {
-    --scale: 0.75 * 0.8; /* 80% of base scale */
+    --scale: 0.75 * 0.9;
   }
   body {
     font-size: calc(var(--scale) * 1em) !important;
-    padding: calc(var(--scale) * 0.5em) !important; /* Scale paddings */
-    margin: calc(var(--scale) * 0.5em) !important; /* Scale margins */
   }
-  /* Truncate text more aggressively if needed, but use existing function */
+}
+
+@media (max-width: 800px) {
+  :root,
+  [data-theme="dark"] {
+    --scale: 0.75 * 0.8;
+  }
+  body {
+    font-size: calc(var(--scale) * 1em) !important;
+    padding: calc(var(--scale) * 0.5em) !important;
+    margin: calc(var(--scale) * 0.5em) !important;
+  }
 }
 @media (min-width: 768px) and (max-width: 1024px) {
   .bot-code-reveal {
-    margin-left: -16px; /* softer lean on tablets */
+    margin-left: -16px;
   }
 
   .bot-card-wrapper {
-    width: 70%; /* or a narrower fixed width like 700px */
+    width: 70%;
   }
 }
 
 @media (max-width: 480px) {
-  /* For mobile, maximum shrinkage while preserving layout */
   :root,
   [data-theme="dark"] {
-    --scale: 0.75 * 0.7; /* 70% of base scale */
+    --scale: 0.75 * 0.7;
   }
   body {
     font-size: calc(var(--scale) * 1em) !important;
-    width: auto !important; /* Ensure fluidity */
+    width: auto !important;
   }
   .bot-code-reveal {
-    margin-top: calc(10px * var(--scale)); /* Slight adjustment for mobile */
+    margin-top: calc(10px * var(--scale));
   }
   .bot-section,
   .preview-box,
   .code-snippet {
-    max-width: 100%; /* Reinforce full width on mobile */
-    overflow-x: auto; /* Allow horizontal scroll if wrapping isn't enough */
+    max-width: 100%;
+    overflow-x: auto;
   }
   .code-snippet {
-    word-break: break-all; /* Aggressive breaking for code on small screens */
+    word-break: break-all;
   }
 }

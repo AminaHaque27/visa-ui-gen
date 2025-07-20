@@ -1,31 +1,21 @@
-/* Add media queries to ensure responsive scaling across devices */
-/* These adjust the scale factor based on screen width, keeping layout intact but shrinking proportionally */
-
 @media (max-width: 1200px) {
-  /* For medium screens, apply a slight reduction beyond base scale */
   #generator-sidebar {
-    --custom-scale: 0.9; /* Adjusted to relative scale factor */
+    --custom-scale: 0.9;
   }
-  /* Removed universal font-size override to preserve hierarchy; rely on JS dynamic scaling */
-  /* Specific adjustments can be added for elements if needed */
 }
 
 @media (max-width: 800px) {
-  /* For small screens, further reduce */
   #generator-sidebar {
-    --custom-scale: 0.8; /* Adjusted to relative scale factor */
+    --custom-scale: 0.8;
   }
-  /* Removed universal overrides; use if specific paddings/margins need extra tweaking */
-  /* .some-class { padding: calc(var(--custom-scale) * 0.5em); } */
 }
 
 @media (max-width: 480px) {
-  /* For mobile, maximum shrinkage while preserving layout */
   #generator-sidebar {
-    --custom-scale: 0.7; /* Adjusted to relative scale factor */
+    --custom-scale: 0.7;
   }
-  /* Ensure fluidity without universal !important */
+
   .history-tab {
-    flex-direction: column; /* Stack if too narrow, but keep overall layout */
+    flex-direction: column;
   }
 }

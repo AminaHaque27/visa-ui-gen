@@ -1,43 +1,60 @@
-import React, { useState } from "react";
+import { useState, useRef } from "react";
 
-const AccessibleTabs = ({ tabs }) => {
-  const [activeTab, setActiveTab] = useState(0);
+export default function AccessibleTabs({ tabs }) {
+  const [selectedIndex, setSelectedIndex] = useState(0);
+  const tabRefs = useRef([]);
 
-  const handleKeyDown = (e, index) => {
-    if (e.key === "ArrowRight") {
-      setActiveTab((index + 1) % tabs.length);
-    } else if (e.key === "ArrowLeft") {
-      setActiveTab((index - 1 + tabs.length) % tabs.length);
+  const handleKeyDown = (e) => {
+    const count = tabs.length;
+    let newIndex = selectedIndex;
+
+    switch (e.key) {
+      case "ArrowRight":
+        newIndex = (selectedIndex + 1) % count;
+        break;
+      case "ArrowLeft":
+        newIndex = (selectedIndex - 1 + count) % count;
+        break;
+      case "Home":
+        newIndex = 0;
+        break;
+      case "End":
+        newIndex = count - 1;
+        break;
+      default:
+        return;
     }
+
+    e.preventDefault();
+    setSelectedIndex(newIndex);
+    tabRefs.current[newIndex]?.focus();
   };
 
   return (
-    <div
-      role="tablist"
-      aria-label="Tab menu"
-      className="flex gap-4 border-b p-2 fixed bottom-4 left-4 bg-black rounded-md shadow-lg z-50"
-    >
+    <div role="tablist" aria-label="Tabs">
       {tabs.map((tab, index) => (
         <button
           key={tab.id}
+          id={`tab-${tab.id}`}
           role="tab"
-          id={`tab-${index}`}
-          aria-selected={activeTab === index}
-          aria-controls={`panel-${index}`}
-          tabIndex={activeTab === index ? 0 : -1}
-          onClick={() => setActiveTab(index)}
-          onKeyDown={(e) => handleKeyDown(e, index)}
-          className={`px-4 py-2 rounded ${
-            activeTab === index
-              ? "bg-white text-black font-bold"
-              : "text-white opacity-70"
-          }`}
+          ref={(el) => (tabRefs.current[index] = el)}
+          aria-selected={selectedIndex === index}
+          aria-controls={`panel-${tab.id}`}
+          tabIndex={selectedIndex === index ? 0 : -1}
+          onClick={() => setSelectedIndex(index)}
+          onKeyDown={handleKeyDown}
         >
           {tab.label}
         </button>
       ))}
+
+      <div
+        id={`panel-${tabs[selectedIndex].id}`}
+        role="tabpanel"
+        aria-labelledby={`tab-${tabs[selectedIndex].id}`}
+      >
+        {tabs[selectedIndex].content}
+      </div>
     </div>
   );
-};
-
-export default AccessibleTabs;
+}

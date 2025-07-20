@@ -2,11 +2,17 @@ import { useState, useRef, useEffect } from "react";
 import Sidebar from "./Sidebar";
 import ChatBot from "./ChatBot";
 import { Toaster, toast } from "react-hot-toast";
-import "./galaxy.css"; // base styles
-import "./GeneratorPage.css"; // overrides (dark mode vars)
-import { VisaModeDarkHigh, VisaModeLightHigh } from "@visa/nova-icons-react";
+import "./galaxy.css";
+import "./GeneratorPage.css";
+import {
+  VisaModeDarkHigh,
+  VisaModeLightHigh,
+  VisaQuestionHigh,
+} from "@visa/nova-icons-react";
 import { Link } from "react-router-dom";
 import { VisaHomeLow } from "@visa/nova-icons-react";
+
+const isDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
 
 const getComponentInfo = async (query) => {
   const BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:8000"; // fallback
@@ -43,6 +49,7 @@ export default function GeneratorPage() {
   const [copiedIndex, setCopiedIndex] = useState(null);
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [showAccessibilityInfo, setShowAccessibilityInfo] = useState(false);
 
   // Scale factor: reduce all size-related values to 75% of original
   const scale = 0.75;
@@ -57,7 +64,6 @@ export default function GeneratorPage() {
       initialMode ? "dark" : "light"
     );
 
-    // Listener for system theme changes
     const handleChange = (e) => {
       const newMode = e.matches;
       setIsDarkMode(newMode);
@@ -79,6 +85,10 @@ export default function GeneratorPage() {
     );
   };
 
+  const toggleAccessibilityInfo = () => {
+    setShowAccessibilityInfo(!showAccessibilityInfo);
+  };
+
   const clearHistory = async () => {
     try {
       await fetch("http://localhost:8000/queries", { method: "DELETE" }); // clear server
@@ -86,7 +96,7 @@ export default function GeneratorPage() {
       console.error("Failed to clear backend history:", err);
     }
 
-    localStorage.removeItem("nova-history"); // optional if you're persisting
+    localStorage.removeItem("nova-history");
     setMessages([]);
     setHistory([]);
     setQuery("");
@@ -117,7 +127,7 @@ export default function GeneratorPage() {
   const handleGenerate = async () => {
     if (!query.trim()) return;
 
-    setIsLoading(true); // ✅ Show loading spinner/message
+    setIsLoading(true); //  Show loading spinner/message
 
     const userMessage = { type: "user", text: query };
     const newId = `hist-${history.length}`;
@@ -155,7 +165,7 @@ export default function GeneratorPage() {
       console.error("Save failed:", error);
       toast.error("⚠️ Failed to save query");
     } finally {
-      setIsLoading(false); // ✅ Hide spinner/message
+      setIsLoading(false); //  Hide spinner/message
     }
   };
 
@@ -251,32 +261,165 @@ export default function GeneratorPage() {
             position: "absolute",
             right: `${50 * scale}px`,
             zIndex: 10,
-            cursor: "pointer",
-            padding: `${8 * scale}px`,
             top: `${20 * scale}px`,
+            display: "flex",
+            alignItems: "center",
+            gap: `${10 * scale}px`,
           }}
-          onClick={toggleTheme}
         >
-          {isDarkMode ? (
-            <VisaModeLightHigh
+          <div
+            style={{
+              cursor: "pointer",
+              padding: `${8 * scale}px`,
+            }}
+            onClick={toggleAccessibilityInfo}
+            aria-label="View accessibility information"
+            role="button"
+            tabIndex={0}
+            onKeyDown={(e) => {
+              if (e.key === "Enter" || e.key === " ") {
+                toggleAccessibilityInfo();
+              }
+            }}
+          >
+            <VisaQuestionHigh
               style={{
                 width: `${55 * scale}px`,
                 height: `${55 * scale}px`,
                 color: "var(--palette-default-text)",
               }}
-              aria-label="Switch to light mode"
             />
-          ) : (
-            <VisaModeDarkHigh
-              style={{
-                width: `${55 * scale}px`,
-                height: `${55 * scale}px`,
-                color: "var(--palette-default-text)",
-              }}
-              aria-label="Switch to dark mode"
-            />
-          )}
+          </div>
+          <div
+            style={{
+              cursor: "pointer",
+              padding: `${8 * scale}px`,
+            }}
+            onClick={toggleTheme}
+          >
+            {isDarkMode ? (
+              <VisaModeLightHigh
+                style={{
+                  width: `${55 * scale}px`,
+                  height: `${55 * scale}px`,
+                  color: "var(--palette-default-text)",
+                }}
+                aria-label="Switch to light mode"
+              />
+            ) : (
+              <VisaModeDarkHigh
+                style={{
+                  width: `${55 * scale}px`,
+                  height: `${55 * scale}px`,
+                  color: "var(--palette-default-text)",
+                }}
+                aria-label="Switch to dark mode"
+              />
+            )}
+          </div>
         </div>
+        {showAccessibilityInfo && (
+          <div
+            style={{
+              position: "fixed",
+              top: 0,
+              left: 0,
+              width: "100%",
+              height: "100%",
+              background: isDarkMode
+                ? "rgba(0, 0, 0, 0.5)"
+                : "rgba(255, 255, 255, 0.6)",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              zIndex: 20,
+            }}
+            onClick={toggleAccessibilityInfo}
+            aria-modal="true"
+            role="dialog"
+          >
+            <div
+              style={{
+                backgroundColor: isDark ? "#121212" : "#ffffff",
+                color: isDark ? "#f5f5f5" : "#000000",
+                padding: `${20 * scale}px`,
+                borderRadius: `${12 * scale}px`,
+                maxWidth: "600px",
+                width: "100%",
+                marginBottom: `${40 * scale}px`,
+              }}
+              onClick={(e) => e.stopPropagation()}
+            >
+              <h2 style={{ marginBottom: `${10 * scale}px` }}>
+                How to Use This Website
+              </h2>
+              <p>
+                NovaUI helps developers quickly generate UI components by
+                describing what they want to build in plain English. Here's how
+                to use the tool effectively:
+              </p>
+              <ul style={{ listStyleType: "disc", paddingLeft: "20px" }}>
+                <li>
+                  Type a description of the UI you want—e.g.,{" "}
+                  <em>"responsive login form with remember me"</em>—into the
+                  input field.
+                </li>
+                <li>
+                  Press <strong>Enter</strong> to generate suggestions. The
+                  system will return:
+                  <ul style={{ listStyleType: "circle", paddingLeft: "20px" }}>
+                    <li>
+                      A list of relevant components from the Visa Design System
+                    </li>
+                    <li>
+                      An auto-generated code snippet using those components
+                    </li>
+                  </ul>
+                </li>
+                <li>
+                  Use the <strong>Tab</strong> key to move between focusable
+                  elements, like input fields and buttons.
+                </li>
+                <li>
+                  Use the <strong>arrow keys</strong> (← / →) to navigate
+                  between tabs.
+                </li>
+                <li>
+                  Press <strong>Enter</strong> or <strong>Space</strong> to
+                  activate a selected tab and view its content.
+                </li>
+                <li>
+                  Click the <strong>copy</strong> icon next to any code block to
+                  copy it to your clipboard for easy use in your own project.
+                </li>
+                <li>
+                  Toggle between <strong>light and dark modes</strong> using the
+                  icon in the top right—NovaUI also respects your system’s
+                  default theme.
+                </li>
+                <li>
+                  If the tool takes a few seconds to load on first use, please
+                  wait—backend initialization may cause a brief delay.
+                </li>
+              </ul>
+
+              <button
+                onClick={toggleAccessibilityInfo}
+                style={{
+                  marginTop: `${10 * scale}px`,
+                  padding: `${8 * scale}px ${16 * scale}px`,
+                  backgroundColor: isDark ? "#ffffff" : "#000000",
+                  color: isDark ? "#000000" : "#ffffff",
+                  border: "none",
+                  borderRadius: "4px",
+                  cursor: "pointer",
+                }}
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        )}
         <div
           className={`appContainer ${navExpanded ? "" : "collapsed"}`}
           style={{

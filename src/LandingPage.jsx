@@ -190,8 +190,8 @@ export default function LandingPage() {
                 width: "100%",
                 maxWidth: `${200 * scale}px`,
                 height: `${5 * scale}rem`,
-                margin: "0 auto", // centers the button horizontally
-                display: "block", // ensures it's treated like a block-level element
+                margin: "0 auto",
+                display: "block",
               }}
             >
               Get Started

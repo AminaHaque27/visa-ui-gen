@@ -16,7 +16,7 @@ import {
   VisaFavoriteStarOutlineLow,
 } from "@visa/nova-icons-react";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import "./Sidebar.css";
 
 function useWindowWidth() {
@@ -46,11 +46,47 @@ export default function Sidebar({
 }) {
   const width = useWindowWidth();
 
-  // Dynamic scale factor based on window width to adjust sizes proportionally
   let scale = 0.67;
   if (width <= 1200) scale = 0.67 * 0.9;
   if (width <= 800) scale = 0.67 * 0.8;
   if (width <= 480) scale = 0.67 * 0.7;
+
+  const historyRef = useRef(null);
+
+  useEffect(() => {
+    const handleKeyDown = (event) => {
+      if (!historyRef.current) return;
+
+      const buttons = Array.from(historyRef.current.querySelectorAll("button")); // Get all history buttons
+      const focusedIndex = buttons.findIndex(
+        (btn) => btn === document.activeElement
+      );
+
+      if (event.key === "ArrowDown") {
+        event.preventDefault();
+        const nextIndex = (focusedIndex + 1) % buttons.length;
+        buttons[nextIndex].focus();
+      } else if (event.key === "ArrowUp") {
+        event.preventDefault();
+        const prevIndex = (focusedIndex - 1 + buttons.length) % buttons.length;
+        buttons[prevIndex].focus();
+      } else if (event.key === "Enter" || event.key === " ") {
+        event.preventDefault();
+        document.activeElement.click();
+      }
+    };
+
+    const container = historyRef.current;
+    if (container) {
+      container.addEventListener("keydown", handleKeyDown);
+    }
+
+    return () => {
+      if (container) {
+        container.removeEventListener("keydown", handleKeyDown);
+      }
+    };
+  }, [messages]);
 
   return (
     <Nav
@@ -61,7 +97,7 @@ export default function Sidebar({
       style={{
         width: navExpanded ? `${400 * scale}px` : `${80 * scale}px`,
         transition: "width 0.3s ease",
-        height: "100%", // Height remains 100% as it's relative
+        height: "100%",
         minHeight: "0",
         overflowY: "auto",
       }}
@@ -125,8 +161,13 @@ export default function Sidebar({
             </Typography>
           </UtilityFragment>
 
+          {/* MODIFIED: Added ref, tabindex for container focus, ARIA roles for tablist-like behavior, and keyboard handling */}
           <Tabs
+            ref={historyRef}
             orientation="vertical"
+            role="tablist"
+            aria-label="History items"
+            tabIndex={0}
             style={{
               marginBottom: `${40 * scale}px`,
               marginTop: `${40 * scale}px`,
@@ -135,11 +176,13 @@ export default function Sidebar({
             {messages
               .filter((m) => m.type === "user")
               .map((msg, index) => (
-                <Tab key={`msg-${index}`}>
+                <Tab key={`msg-${index}`} role="tab" aria-selected="false">
+                  {" "}
+                  {/* ARIA for tabs; update aria-selected dynamically if needed */}
                   <Button
                     colorScheme="tertiary"
                     onClick={() => setQuery(msg.text)}
-                    aria-label={`History item ${index + 1}`}
+                    aria-label={`Select history item: ${msg.text}`} // Improved aria-label for screen readers
                     className="history-tab"
                   >
                     <VisaFavoriteStarOutlineLow

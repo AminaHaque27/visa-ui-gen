@@ -32,10 +32,11 @@ export default function BotCodeReveal({
             paddingLeft: `${10 * scale}px`,
           }}
         >
-          {/* 🧩 Components */}
+          {/*  Components */}
           {suggestions?.length > 0 && (
-            <>
+            <section role="region" aria-labelledby="components-heading">
               <Typography
+                id="components-heading"
                 variant="headline-3"
                 style={{
                   color: "var(--text-accent)",
@@ -50,12 +51,12 @@ export default function BotCodeReveal({
                   <li key={i}>{sug}</li>
                 ))}
               </ul>
-            </>
+            </section>
           )}
-
-          {/* 💻 Code */}
-          <div>
+          {/*  Code */}
+          <section role="region" aria-labelledby="code-heading">
             <Typography
+              id="code-heading"
               variant="headline-3"
               style={{
                 color: "var(--text-accent)",
@@ -72,7 +73,12 @@ export default function BotCodeReveal({
                   variant="tertiary"
                   size="sm"
                   onClick={onCopy}
-                  aria-label="Copy code to clipboard"
+                  aria-label={
+                    copied
+                      ? "Code copied to clipboard"
+                      : "Copy code to clipboard"
+                  }
+                  aria-live="polite"
                   className="icon-copy-btn"
                 >
                   <VisaDocumentHigh size={28 * scale} />
@@ -80,11 +86,11 @@ export default function BotCodeReveal({
                 </Button>
               </div>
             </div>
-          </div>
-
-          {/* 🖼️ Preview */}
-          <div>
+          </section>
+          {/*  Preview */}
+          <section role="region" aria-labelledby="preview-heading">
             <Typography
+              id="preview-heading"
               variant="headline-3"
               style={{
                 color: "var(--text-accent)",
@@ -95,20 +101,24 @@ export default function BotCodeReveal({
               UI Preview
             </Typography>
             <LiveProvider code={code} scope={{ ...Nova, ...NovaIcons }}>
-              <div className="preview-box">
+              <div className="preview-box" tabIndex={-1}>
+                {" "}
+                {/* tabIndex=-1 to allow programmatic focus if needed, but not tabbable by default */}
                 <div className="preview-content">
                   <LivePreview />
                 </div>
               </div>
               <LiveError
                 style={{ color: "red", fontSize: `${0.9 * scale}rem` }}
+                role="alert"
               />
             </LiveProvider>
-          </div>
-
-          {/* 💬 Reasoning */}
+          </section>
+          {/*  Reasoning */}
           {reasoning && (
-            <div
+            <section
+              role="region"
+              aria-labelledby="reasoning-heading"
               style={{
                 padding: `${32 * scale}px`,
                 backgroundColor: "var(--bg-secondary)",
@@ -122,6 +132,7 @@ export default function BotCodeReveal({
               }}
             >
               <Typography
+                id="reasoning-heading"
                 variant="headline-3"
                 style={{ marginBottom: `${8 * scale}px` }}
               >
@@ -133,7 +144,7 @@ export default function BotCodeReveal({
               >
                 {reasoning}
               </Typography>
-            </div>
+            </section>
           )}
         </div>
       </div>
