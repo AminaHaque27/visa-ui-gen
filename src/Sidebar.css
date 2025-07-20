@@ -4,38 +4,27 @@
 @media (max-width: 1200px) {
   /* For medium screens, apply a slight reduction beyond base scale */
   #generator-sidebar {
-    --custom-scale: 0.67 * 0.9; /* 90% of base scale */
+    --custom-scale: 0.9; /* Adjusted to relative scale factor */
   }
-  #generator-sidebar * {
-    font-size: calc(
-      var(--custom-scale) * 1em
-    ) !important; /* Override font sizes */
-  }
-  /* Adjust specific elements if needed, but layout remains the same */
+  /* Removed universal font-size override to preserve hierarchy; rely on JS dynamic scaling */
+  /* Specific adjustments can be added for elements if needed */
 }
 
 @media (max-width: 800px) {
   /* For small screens, further reduce */
   #generator-sidebar {
-    --custom-scale: 0.67 * 0.8; /* 80% of base scale */
+    --custom-scale: 0.8; /* Adjusted to relative scale factor */
   }
-  #generator-sidebar * {
-    font-size: calc(var(--custom-scale) * 1em) !important;
-    padding: calc(var(--custom-scale) * 0.5em) !important; /* Scale paddings */
-    margin: calc(var(--custom-scale) * 0.5em) !important; /* Scale margins */
-  }
-  /* Truncate text more aggressively if needed, but use existing function */
+  /* Removed universal overrides; use if specific paddings/margins need extra tweaking */
+  /* .some-class { padding: calc(var(--custom-scale) * 0.5em); } */
 }
 
 @media (max-width: 480px) {
   /* For mobile, maximum shrinkage while preserving layout */
   #generator-sidebar {
-    --custom-scale: 0.67 * 0.7; /* 70% of base scale */
+    --custom-scale: 0.7; /* Adjusted to relative scale factor */
   }
-  #generator-sidebar * {
-    font-size: calc(var(--custom-scale) * 1em) !important;
-    width: auto !important; /* Ensure fluidity */
-  }
+  /* Ensure fluidity without universal !important */
   .history-tab {
     flex-direction: column; /* Stack if too narrow, but keep overall layout */
   }

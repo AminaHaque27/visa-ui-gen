@@ -8,6 +8,19 @@ import {
 import { VisaSendHigh, VisaCloseLow } from "@visa/nova-icons-react";
 import BotCodeReveal from "./BotCodeReveal";
 import "./ChatBot.css";
+import { useEffect, useState } from "react";
+
+function useWindowWidth() {
+  const [width, setWidth] = useState(window.innerWidth);
+
+  useEffect(() => {
+    const handleResize = () => setWidth(window.innerWidth);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  return width;
+}
 
 export default function ChatBot({
   showGreeting,
@@ -23,8 +36,19 @@ export default function ChatBot({
   messagesEndRef,
   isLoading,
 }) {
-  // Scale factor: reduce all size-related values to 75% of original
-  const scale = 0.75;
+  const width = useWindowWidth();
+
+  // Dynamic scale factor based on window width to adjust sizes proportionally
+  let baseScale = 0.75;
+  let adjustment = 1;
+  if (width <= 1200) adjustment = 0.9;
+  if (width <= 800) adjustment = 0.8;
+  if (width <= 480) adjustment = 0.7;
+  const scale = baseScale * adjustment;
+
+  useEffect(() => {
+    document.documentElement.style.setProperty("--scale", scale);
+  }, [scale]);
 
   return (
     <div className="mainContent">
@@ -50,9 +74,13 @@ export default function ChatBot({
             {messages.map((msg, idx) => (
               <div
                 key={idx}
-                className={`chat-bubble ${
-                  msg.type === "user" ? "user" : "bot"
-                }`}
+                className={
+                  msg.type === "user"
+                    ? "chat-bubble user"
+                    : msg.code
+                    ? "bot-card-container"
+                    : "chat-bubble bot"
+                }
                 style={{
                   alignSelf: msg.type === "user" ? "flex-end" : "flex-start",
                 }}
@@ -85,23 +113,7 @@ export default function ChatBot({
             ))}
 
             {isLoading && (
-              <div
-                className="chat-bubble bot"
-                style={{
-                  backgroundColor: "var(--surface-alt)",
-                  fontStyle: "italic",
-                  opacity: 0.7,
-                  padding: "1.2rem 1.5rem",
-                  borderRadius: "12px",
-                  textAlign: "left",
-                  maxWidth: "700px",
-                  alignSelf: "flex-start",
-                  fontSize: "1.7rem",
-                  lineHeight: "1.5",
-                  color: "var(--text-secondary)",
-                  boxShadow: "0 2px 8px rgba(0, 0, 0, 0.08)",
-                }}
-              >
+              <div className="chat-loading-bubble">
                 <span>NovaUI is generating your component...</span>
               </div>
             )}
@@ -116,6 +128,7 @@ export default function ChatBot({
           <div className="welcome-message" style={{ position: "relative" }}>
             <Typography
               variant="headline-1"
+              className="headline-1"
               style={{
                 marginBottom: `${8 * scale}px`,
                 textAlign: "left",

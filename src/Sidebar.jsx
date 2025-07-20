@@ -46,8 +46,11 @@ export default function Sidebar({
 }) {
   const width = useWindowWidth();
 
-  // Scale factor: reduce all size-related values to 67% of original
-  const scale = 0.67;
+  // Dynamic scale factor based on window width to adjust sizes proportionally
+  let scale = 0.67;
+  if (width <= 1200) scale = 0.67 * 0.9;
+  if (width <= 800) scale = 0.67 * 0.8;
+  if (width <= 480) scale = 0.67 * 0.7;
 
   return (
     <Nav

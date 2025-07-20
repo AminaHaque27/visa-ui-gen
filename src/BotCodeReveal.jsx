@@ -1,4 +1,3 @@
-import { useState, useRef, useEffect } from "react";
 import { LiveProvider, LiveError, LivePreview } from "react-live";
 import * as Nova from "@visa/nova-react";
 import * as NovaIcons from "@visa/nova-icons-react";
@@ -14,135 +13,112 @@ export default function BotCodeReveal({
   reasoning,
   codeTitle,
 }) {
-  const [open, setOpen] = useState(true);
-  const [showComponents, setShowComponents] = useState(true);
-  const [showCode, setShowCode] = useState(true);
-  const [showPreview, setShowPreview] = useState(true);
-  const sectionRef = useRef(null);
-  const sectionContentRef = useRef(null);
-  const [height, setHeight] = useState(0);
-
-  // Scale factor: reduce all size-related values to 75% of original
   const scale = 0.75;
 
-  useEffect(() => {
-    if (open && sectionContentRef.current) {
-      setHeight(sectionContentRef.current.scrollHeight);
-    } else {
-      setHeight(0);
-    }
-  }, [open, showCode, showPreview, showComponents, reasoning]);
-
   return (
-    <div className="bot-code-reveal" ref={sectionRef}>
-      <Typography variant="headline-2" className="bot-heading">
-        Suggestions for:{" "}
-        <span style={{ color: "var(--text-accent)" }}>{codeTitle}</span>
-      </Typography>
-      <Button
-        variant="primary"
-        size="sm"
-        onClick={() => setOpen((prev) => !prev)}
-        className="toggle-open-btn"
-      >
-        {open ? "Hide" : "Open"}
-      </Button>
-      <div
-        className="bot-section"
-        ref={sectionRef}
-        style={{
-          maxHeight: `${height}px`,
-          overflow: "hidden",
-          transition: "max-height 0.5s ease-in-out",
-        }}
-      >
-        <div ref={sectionContentRef}>
+    <div className="bot-code-reveal">
+      <div className="bot-card-wrapper">
+        <Typography variant="headline-2" className="bot-heading">
+          Suggestions for:{" "}
+          <span style={{ color: "var(--text-accent)" }}>{codeTitle}</span>
+        </Typography>
+
+        <div
+          className="bot-section"
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            gap: `${24 * scale}px`,
+            paddingLeft: `${10 * scale}px`,
+          }}
+        >
+          {/* 🧩 Components */}
           {suggestions?.length > 0 && (
             <>
-              <Button
-                variant="tertiary"
-                size="sm"
-                onClick={() => setShowComponents((p) => !p)}
-                className="toggle-components-btn"
-              >
-                {showComponents ? "Hide Components" : "Show Components"}
-              </Button>
-              {showComponents && (
-                <ul className="bot-code-suggestions">
-                  {suggestions.map((sug, i) => (
-                    <li key={i}>{sug}</li>
-                  ))}
-                </ul>
-              )}
-            </>
-          )}
-
-          <Button
-            variant="tertiary"
-            size="sm"
-            onClick={() => setShowCode((p) => !p)}
-            className="toggle-code-btn"
-          >
-            {showCode ? "Hide Code" : "Show Code"}
-          </Button>
-          {showCode && (
-            <div className="code-box-with-copy">
-              <pre className="code-snippet">{code}</pre>
-              <Button
-                variant="tertiary"
-                size="sm"
-                onClick={onCopy}
-                aria-label="Copy code to clipboard"
-                className="icon-copy-btn"
-              >
-                <VisaDocumentHigh size={32 * scale} />
-                {copied ? " Copied!" : " Copy"}
-              </Button>
-            </div>
-          )}
-
-          <Button
-            variant="tertiary"
-            size="sm"
-            onClick={() => setShowPreview((p) => !p)}
-            className="toggle-preview-btn"
-          >
-            {showPreview ? "Hide Preview" : "Show Preview"}
-          </Button>
-          {showPreview && (
-            <>
               <Typography
-                variant="subtitle-2"
+                variant="headline-3"
                 style={{
-                  marginTop: `${10 * scale}px`,
-                  fontSize: `${1.5 * scale}rem`,
+                  color: "var(--text-accent)",
+                  borderLeft: `4px solid var(--text-accent)`,
+                  paddingLeft: `${8 * scale}px`,
                 }}
               >
-                Live Preview:
+                Components
               </Typography>
-              <LiveProvider code={code} scope={{ ...Nova, ...NovaIcons }}>
-                <div className="preview-box">
-                  <div className="preview-content">
-                    <LivePreview />
-                  </div>
-                </div>
-                <LiveError
-                  style={{ color: "red", fontSize: `${0.9 * scale}rem` }}
-                />
-              </LiveProvider>
+              <ul className="bot-code-suggestions">
+                {suggestions.map((sug, i) => (
+                  <li key={i}>{sug}</li>
+                ))}
+              </ul>
             </>
           )}
 
+          {/* 💻 Code */}
+          <div>
+            <Typography
+              variant="headline-3"
+              style={{
+                color: "var(--text-accent)",
+                borderLeft: `4px solid var(--text-accent)`,
+                paddingLeft: `${8 * scale}px`,
+              }}
+            >
+              Code
+            </Typography>
+            <div className="code-box-wrapper">
+              <pre className="code-snippet">{code}</pre>
+              <div className="code-copy-bottom">
+                <Button
+                  variant="tertiary"
+                  size="sm"
+                  onClick={onCopy}
+                  aria-label="Copy code to clipboard"
+                  className="icon-copy-btn"
+                >
+                  <VisaDocumentHigh size={28 * scale} />
+                  {copied ? " Copied!" : " Copy"}
+                </Button>
+              </div>
+            </div>
+          </div>
+
+          {/* 🖼️ Preview */}
+          <div>
+            <Typography
+              variant="headline-3"
+              style={{
+                color: "var(--text-accent)",
+                borderLeft: `4px solid var(--text-accent)`,
+                paddingLeft: `${8 * scale}px`,
+              }}
+            >
+              UI Preview
+            </Typography>
+            <LiveProvider code={code} scope={{ ...Nova, ...NovaIcons }}>
+              <div className="preview-box">
+                <div className="preview-content">
+                  <LivePreview />
+                </div>
+              </div>
+              <LiveError
+                style={{ color: "red", fontSize: `${0.9 * scale}rem` }}
+              />
+            </LiveProvider>
+          </div>
+
+          {/* 💬 Reasoning */}
           {reasoning && (
             <div
               style={{
-                marginTop: `${25 * scale}px`,
-                padding: `${16 * scale}px`,
-                backgroundColor: "var(--background-secondary)",
-                borderRadius: `${12 * scale}px`,
+                padding: `${32 * scale}px`,
+                backgroundColor: "var(--bg-secondary)",
+                borderRadius: `${16 * scale}px`,
                 fontSize: `${2 * scale}rem`,
                 lineHeight: "1.6",
                 color: "var(--text-primary)",
+                width: "100%",
+                maxWidth: "100%",
+                boxShadow: "0 6px 20px rgba(0, 0, 0, 0.15)",
               }}
             >
               <Typography
@@ -159,8 +135,8 @@ export default function BotCodeReveal({
               </Typography>
             </div>
           )}
-        </div>{" "}
-      </div>{" "}
+        </div>
+      </div>
     </div>
   );
 }
