@@ -14,9 +14,9 @@ import { VisaHomeLow } from "@visa/nova-icons-react";
 
 const isDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
 
-const getComponentInfo = async (query) => {
-  const BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:8000"; // fallback
+const BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:8000";
 
+const getComponentInfo = async (query) => {
   try {
     const response = await fetch(
       `${BASE_URL}/suggest?query=${encodeURIComponent(query)}`
@@ -91,7 +91,8 @@ export default function GeneratorPage() {
 
   const clearHistory = async () => {
     try {
-      await fetch("http://localhost:8000/queries", { method: "DELETE" }); // clear server
+      await fetch(`${BASE_URL}/queries`, { method: "DELETE" });
+      // clear server
     } catch (err) {
       console.error("Failed to clear backend history:", err);
     }
@@ -148,7 +149,7 @@ export default function GeneratorPage() {
       setMessages((prev) => [...prev, userMessage, systemMessage]);
 
       // Step 2: Save to backend
-      const saveResponse = await fetch("http://localhost:8000/queries", {
+      const saveResponse = await fetch(`${BASE_URL}/queries`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ query, components, code, reasoning }),
@@ -185,7 +186,7 @@ export default function GeneratorPage() {
   useEffect(() => {
     const loadHistory = async () => {
       try {
-        const response = await fetch("http://localhost:8000/queries");
+        const response = await fetch(`${BASE_URL}/queries`);
         const data = await response.json();
 
         // Transform backend data into user/bot message pairs

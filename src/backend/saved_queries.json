@@ -1,1 +1,13 @@
-[]
+[
+  {
+    "query": "Login Form",
+    "components": [
+      "InputContainer",
+      "Input",
+      "Button",
+      "Typography"
+    ],
+    "code": "<div><Typography variant='headline-3'>Login Form</Typography><InputContainer label='Username'><Input type='text' placeholder='Enter your username' /></InputContainer><InputContainer label='Password'><Input type='password' placeholder='Enter your password' /></InputContainer><Button>Submit</Button></div>",
+    "reasoning": "InputContainer to group fields, Input for input fields, Button for submission, Typography for headings and helper text"
+  }
+]
