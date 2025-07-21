@@ -19,7 +19,11 @@ app = FastAPI()
 # CORS settings (adjust for production)
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=[
+        "http://localhost:5173",
+        "https://visa-ui-gen.vercel.app"
+    ],
+    allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"]
 )
