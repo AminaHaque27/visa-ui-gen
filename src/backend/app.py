@@ -19,15 +19,11 @@ app = FastAPI()
 # CORS settings (adjust for production)
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[
-        "http://localhost:5173",
-        "https://visa-ui-gen.vercel.app"
-    ],
+    allow_origins=["*"],  
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"]
 )
-
 # JSON file for storing queries
 DATA_FILE = "saved_queries.json"
 
