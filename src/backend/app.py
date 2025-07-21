@@ -158,3 +158,6 @@ def get_queries():
 def delete_queries():
     save_queries([])  # Clear the file
     return {"message": "All queries cleared!"}
+@app.api_route("/", methods=["GET", "HEAD"])
+def root():
+    return {"message": "Visa UI API is live."}
